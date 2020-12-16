@@ -4,6 +4,9 @@ public class Field {
     private ArrayList<Field> neighbours;
     private Player owner;
     private Player target;
+    /*
+    Wpisałem narazie x,y. Jak będziesz to robił to zamień na twój pomysł na numeracje.
+     */
     private int x;
     private int y;
 
@@ -17,6 +20,7 @@ public class Field {
     public void setOwner(Player player){}
 
     public Player getOwner(){return null;}
+
 
     public int getX(){return 0;}
 
