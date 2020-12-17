@@ -23,7 +23,7 @@ public class Game{
         currentNumberOfPlayers++;
         currentPlayer = player;         //who connect last starts the game
 
-        writeToAll("New player joined! Current state: " + currentNumberOfPlayers + "/" + expectedNumberOfPlayers);
+        writeMessageToAll("New player joined! Current state: " + currentNumberOfPlayers + "/" + expectedNumberOfPlayers);
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
             play= true;
@@ -33,13 +33,13 @@ public class Game{
 
     public void isWinner(Player player){
         if(prophet.isWinner(player, board)) {
-            writeToAll("Winner is Player" + player.getNumber());
+            writeMessageToAll("Winner is Player" + player.getNumber());
             stopGame();
         }
     }
 
     public void playerLeft(int playerNumber){
-        writeToAll("Player " + playerNumber +"left the game :(");
+        writeMessageToAll("Player " + playerNumber +"left the game :(");
         stopGame();
     }
 
@@ -53,7 +53,8 @@ public class Game{
                 if (prophet.move(fieldFrom, fieldTo, playersList[playerNumber],  board)) {
                     board.setField(fieldFrom.getKey(), fieldFrom.getValue(), null);
                     board.setField(fieldFrom.getKey(), fieldFrom.getValue(), playersList[playerNumber]);
-                    writeToAll("Player " + playerNumber + " made move from  " + fieldFrom.getKey() + fieldFrom.getValue() + " to " + fieldTo.getKey() + fieldTo.getValue());
+
+                    writeMoveToAll(fieldFrom.getKey() + fieldFrom.getValue() + " " + fieldTo.getKey() + fieldTo.getValue());
                     isWinner(currentPlayer);
                     nextPlayer();
                 } else {
@@ -68,10 +69,18 @@ public class Game{
         }
     }
 
-    private void writeToAll(String message){
+    private void writeMessageToAll(String message){
         for(Player player: playersList){
             if(player != null){
-                player.write(message);
+                player.writeMessage(message);
+            }
+        }
+    }
+
+    private void writeMoveToAll(String message){
+        for(Player player: playersList){
+            if(player != null){
+                player.move(message);
             }
         }
     }

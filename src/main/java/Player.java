@@ -25,9 +25,15 @@ public class Player implements Runnable{
         return number;
     }
 
-    public void write(String message){
+    public void writeMessage(String message){
         if(ready) {
             output.println("MESSAGE" + message);
+        }
+    }
+
+    public void move(String message){
+        if(ready) {
+            output.println("MOVE " + message);      //space is very important there
         }
     }
 
@@ -81,10 +87,10 @@ public class Player implements Runnable{
                     game.move(fieldFrom, fieldTo, number);
                 }
                 catch (NumberFormatException e){
-                    output.println("MESSAGE Wrong field codes: " + fieldFromS + " " + fieldToS);
+                    writeMessage("Wrong field codes: " + fieldFromS + " " + fieldToS);
                 }
                 catch (MoveException e){
-                    output.println("MESSAGE" + e.getMessage());
+                    writeMessage(e.getMessage());
                 }
             }
 

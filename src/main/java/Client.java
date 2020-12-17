@@ -29,6 +29,16 @@ public class Client {
                 if(response.startsWith("MESSAGE")){
                     System.out.println(response.substring(8));
                 }
+                else if(response.startsWith("MOVE")){       //Later move in  GUI
+
+                    int temp1 = response.indexOf(" ", 1) + 1;
+                    int temp2 = response.indexOf(" ", temp1);
+
+                    String fieldFrom = response.substring(temp1, temp2);      // second word
+                    String fieldTo = response.substring(temp2 + 1);       // third word
+
+                    System.out.println("Move from " + fieldFrom +  " to " + fieldTo);
+                }
                 else if(response.startsWith("GAME_OVER")){
                     System.out.println("Game over");
                     break;
