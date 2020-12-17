@@ -25,7 +25,6 @@ public class Client {
         try {
             while (in.hasNextLine()) {
                 response = in.nextLine();
-
                 if(response.startsWith("MESSAGE")){
                     System.out.println(response.substring(8));
                 }

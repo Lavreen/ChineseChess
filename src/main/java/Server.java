@@ -27,6 +27,7 @@ public class Server {
                     pool.execute(player = new Player(listener.accept(), game));
                     game.addPlayer(player);
                 }
+                System.out.println("All players joined");
             }
         }
         catch (IOException e) {

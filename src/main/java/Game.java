@@ -26,6 +26,7 @@ public class Game{
         writeMessageToAll("New player joined! Current state: " + currentNumberOfPlayers + "/" + expectedNumberOfPlayers);
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
+            writeMessageToAll("Game begins now!!!");
             play= true;
         }
 

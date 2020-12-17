@@ -27,7 +27,7 @@ public class Player implements Runnable{
 
     public void writeMessage(String message){
         if(ready) {
-            output.println("MESSAGE" + message);
+            output.println("MESSAGE " + message);
         }
     }
 
@@ -44,7 +44,6 @@ public class Player implements Runnable{
                 wait(100);
             } catch (InterruptedException e) {}
         }
-
         try {
             setup();
             ready = true;
@@ -63,7 +62,7 @@ public class Player implements Runnable{
 
     private void setup() throws IOException {
         input = new Scanner(socket.getInputStream());
-        output = new PrintWriter(socket.getOutputStream());
+        output = new PrintWriter(socket.getOutputStream(), true);
         output.println("MESSAGE Welcome Player " + number);
     }
 
@@ -78,20 +77,25 @@ public class Player implements Runnable{
                 int temp1 = command.indexOf(" ", 1) + 1;
                 int temp2 = command.indexOf(" ", temp1);
 
-                String fieldFromS = command.substring(temp1, temp2);      // second word
-                String fieldToS = command.substring(temp2 + 1);       // third word
+                if(temp1 == 0 || temp2 == -1){
+                    writeMessage("Not enought arguments");
+                }
+                else{
 
-                try {
-                    FieldCode fieldFrom = new FieldCode(fieldFromS.charAt(0), Integer.parseInt(fieldFromS.substring(1)));
-                    FieldCode fieldTo = new FieldCode(fieldToS.charAt(0), Integer.parseInt(fieldToS.substring(1)));
-                    game.move(fieldFrom, fieldTo, number);
+                    String fieldFromS = command.substring(temp1, temp2);      // second word
+                    String fieldToS = command.substring(temp2 + 1);       // third word
+
+                    try {
+                        FieldCode fieldFrom = new FieldCode(fieldFromS.charAt(0), Integer.parseInt(fieldFromS.substring(1)));
+                        FieldCode fieldTo = new FieldCode(fieldToS.charAt(0), Integer.parseInt(fieldToS.substring(1)));
+                        game.move(fieldFrom, fieldTo, number);
+                    } catch (NumberFormatException e) {
+                        writeMessage("Wrong field codes: " + fieldFromS + " " + fieldToS);
+                    } catch (MoveException e) {
+                        writeMessage(e.getMessage());
+                    }
                 }
-                catch (NumberFormatException e){
-                    writeMessage("Wrong field codes: " + fieldFromS + " " + fieldToS);
-                }
-                catch (MoveException e){
-                    writeMessage(e.getMessage());
-                }
+
             }
 
         }
