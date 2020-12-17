@@ -8,7 +8,7 @@ public class Server {
         int numberOfPlayers;
 
         try {
-            ServerSocket listner =  new ServerSocket(6666);
+            ServerSocket listener =  new ServerSocket(6666);
 
             System.out.println("Our server is running...  YEY!");
 
@@ -18,18 +18,19 @@ public class Server {
 
             //mode                    //plan for future
 
+            Prophet prophet = new Prophet();        //connected with mode
+
             while(true) {
-                Prophet prophet = new Prophet();        //connected with mode  plans
                 Game game = new Game(numberOfPlayers, prophet);
                 for(int i = 0; i < numberOfPlayers; i++){
                     Player player;
-                    pool.execute(player = new Player(listner.accept(), game));
+                    pool.execute(player = new Player(listener.accept(), game));
                     game.addPlayer(player);
                 }
             }
         }
         catch (IOException e) {
-            System.out.println("Something wrong happend with server a start phase");
+            System.out.println("Something wrong happend with server in a start phase");
         }
     }
 
