@@ -1,3 +1,7 @@
+/**
+ * Class that imitate pair. It's used in field numbering
+ */
+
 public class FieldCode {
     private char key;
     private int value;

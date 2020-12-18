@@ -3,6 +3,10 @@ import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Server class.
+ * Run it to start a server.
+ */
 public class Server {
     public static void main(String[] args) {
         int numberOfPlayers;

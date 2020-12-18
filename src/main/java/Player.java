@@ -3,6 +3,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Class which supports connection with Class Client
+ * @see Client
+ */
+
 public class Player implements Runnable{
     private Socket socket;
     private Scanner input;
@@ -25,12 +30,20 @@ public class Player implements Runnable{
         return number;
     }
 
+    /**
+     * Send message to Client
+     * @param message message
+     */
     public void writeMessage(String message){
         if(ready) {
-            output.println("MESSAGE " + message);
+            output.println("MESSAGE " + message);       //space is very important there
         }
     }
 
+    /**
+     * Send move command to Client
+     * @param message move command
+     */
     public void move(String message){
         if(ready) {
             output.println("MOVE " + message);      //space is very important there
@@ -51,9 +64,8 @@ public class Player implements Runnable{
         }
         catch (IOException e) {}
         finally {
-                game.stopGame();
-            try {
                 game.playerLeft(number);
+            try {
                 socket.close();
             } catch (IOException e) {}
         }
@@ -66,6 +78,9 @@ public class Player implements Runnable{
         output.println("MESSAGE Welcome Player " + number);
     }
 
+    /**
+     * Method which supports connection with Class Client
+     */
     private void processCommands(){
         while(input.hasNextLine()){
             String command = input.nextLine();
@@ -101,6 +116,9 @@ public class Player implements Runnable{
         }
     }
 
+    /**
+     * Send game_over command to Client
+     */
     public void endGame(){
             output.println("GAME_OVER");
     }
