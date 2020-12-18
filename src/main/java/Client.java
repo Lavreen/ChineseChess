@@ -1,8 +1,12 @@
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Client class.
+ * Run it with server address as parameter.
+ * @see Server
+ */
 public class Client {
 
     private Socket socket;
@@ -10,6 +14,11 @@ public class Client {
     private PrintWriter out;
     private final Scanner readFromConsole = new Scanner(System.in);     //until graphic interface
 
+    /**
+     * Constructor, creates and run Class TerminalListener
+     * @param serverAddress address of server
+     * @throws Exception exception
+     */
     public Client(String serverAddress) throws Exception{
         socket = new Socket(serverAddress, 6666);
         in = new Scanner(socket.getInputStream());
@@ -20,6 +29,11 @@ public class Client {
         thread.start();
     }
 
+    /**
+     * Method which supports connection with Class Player and TerminalListener
+     * @throws Exception exception
+     * @see Player
+     */
     public void play() throws Exception{
         String response;
         try {
@@ -54,6 +68,9 @@ public class Client {
 
     }
 
+    /**
+     * Simple terminal listener
+     */
     class TerminalListener implements Runnable{         //that need to be tested
 
         public TerminalListener(){}
@@ -65,6 +82,11 @@ public class Client {
         }
     }
 
+
+    /**
+     * Main. It creates a Client Object and runs it.
+     * @param args args[0] - server address.
+     */
     public static void main(String[] args) {
         if (args.length != 1) {
             System.err.println("Bad input, only IP is needed");

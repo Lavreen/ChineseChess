@@ -1,4 +1,11 @@
-public class Game {
+/**
+ * Class which connects all aspect of games: rules, players and board
+ * @see Prophet
+ * @see Player
+ * @see Board
+ */
+
+public class Game{
     private Board board;
     private Player[] playersList;
     private int expectedNumberOfPlayers;
@@ -17,6 +24,11 @@ public class Game {
         board = new Board(5);   // for now always size 5
     }
 
+
+    /**
+     * Method which adds player to game
+     * @param player player
+     */
     public void addPlayer(Player player){
         player.setNumber(currentNumberOfPlayers);
         playersList[currentNumberOfPlayers] = player;
@@ -32,22 +44,44 @@ public class Game {
 
     }
 
-    public void isWinner(Player player){
+
+    /**
+     * Checks if player is winner
+     * @param player player
+     * @see Player
+     */
+    private void isWinner(Player player){
         if(prophet.isWinner(player, board)) {
             writeMessageToAll("Winner is Player" + player.getNumber());
             stopGame();
         }
     }
 
+    /**
+     * Signal about player who left
+     * @param playerNumber number of player
+     * @see Player
+     */
     public void playerLeft(int playerNumber){
         writeMessageToAll("Player " + playerNumber +"left the game :(");
         stopGame();
     }
 
+    /**
+     * Method which switch currentPlayer to next player from list
+     */
     private void nextPlayer(){
         currentPlayer  = playersList[(currentPlayer.getNumber() + 1) % expectedNumberOfPlayers];
     }
 
+    /**
+     * Analysis of move which player wanna make.
+     * @param fieldFrom field from player wanna move
+     * @param fieldTo   field to player wanna move
+     * @param playerNumber number of player
+     * @throws MoveException move not allowed
+     * @see Player
+     */
     public synchronized void move(FieldCode fieldFrom, FieldCode fieldTo, int playerNumber) throws MoveException{
         if(play) {
             if (currentPlayer.getNumber() == playerNumber) {
@@ -70,6 +104,11 @@ public class Game {
         }
     }
 
+    /**
+     * Send message signal to players
+     * @param message message
+     * @see Player
+     */
     private void writeMessageToAll(String message){
         for(Player player: playersList){
             if(player != null){
@@ -78,6 +117,12 @@ public class Game {
         }
     }
 
+
+    /**
+     * Send move signal to players
+     * @param message move information
+     * @see Player
+     */
     private void writeMoveToAll(String message){
         for(Player player: playersList){
             if(player != null){
@@ -86,7 +131,11 @@ public class Game {
         }
     }
 
-    public void stopGame(){
+    /**
+     * Send end game signal to players
+     * @see Player
+     */
+    private void stopGame(){
         play = false;
         for(Player player: playersList){
             if(player != null){
