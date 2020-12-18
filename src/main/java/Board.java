@@ -9,8 +9,8 @@ public class Board {
     int X; // dimensions of the rectangle which the board fits in
     int Y; //
 
-    public boolean[][] grid = new boolean[100][100]; // "true" - field exists
-    public Field[][] fields = new Field[100][100];
+    public boolean[][] grid; // "true" - field exists
+    public Field[][] fields;
     //public ArrayList<Field>[][] neighborsArrayList = new ArrayList[100][100]
 
     int redOriginX, redOriginY;  // coordinates of the vertex from which the triangle generation starts
@@ -27,6 +27,8 @@ public class Board {
             SIZE = 1;
         X = 7 + 6 * (SIZE - 1);
         Y = 5 + 4 * (SIZE - 1);
+        grid = new boolean[X][Y];
+        fields = new Field[X][Y];
 
         redOriginX = X / 2;
         redOriginY = 0;
@@ -74,23 +76,25 @@ public class Board {
     public void appendNeighbors() {
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
-                if(grid[x - 2][y]) {
-                    fields[x][y].neighbors.add(fields[x - 2][y]);
+
+                if(x >= 2 && grid[x - 2][y]) {
+                    fields[x][y].addNeighbor(fields[x - 2][y]);
                 }
-                if(grid[x - 1][y - 1]) {
-                    fields[x][y].neighbors.add(fields[x - 1][y - 1]);
+
+                if(x >= 1 && y >= 1 && grid[x - 1][y - 1]) {
+                    fields[x][y].addNeighbor(fields[x - 1][y - 1]);
                 }
-                if(grid[x + 1][y - 1]) {
-                    fields[x][y].neighbors.add(fields[x + 1][y - 1]);
+                if(x < X - 1 && y >= 1 && grid[x + 1][y - 1]) {
+                    fields[x][y].addNeighbor(fields[x + 1][y - 1]);
                 }
-                if(grid[x + 2][y]) {
-                    fields[x][y].neighbors.add(fields[x + 2][y]);
+                if(x < X - 2 && grid[x + 2][y]) {
+                    fields[x][y].addNeighbor(fields[x + 2][y]);
                 }
-                if(grid[x + 1][y + 1]) {
-                    fields[x][y].neighbors.add(fields[x + 1][y + 1]);
+                if(x < X - 1 && y < Y - 1 && grid[x + 1][y + 1]) {
+                    fields[x][y].addNeighbor(fields[x + 1][y + 1]);
                 }
-                if(grid[x - 1][y + 1]) {
-                    fields[x][y].neighbors.add(fields[x - 1][y + 1]);
+                if(x >= 1 && y< Y - 1 && grid[x - 1][y + 1]) {
+                    fields[x][y].addNeighbor(fields[x - 1][y + 1]);
                 }
 
 
@@ -184,9 +188,13 @@ public class Board {
             System.out.println();
         }
     }
-    private void setFieldsNeighbours() {}
+    public void setField(char codeChar, int codeInt, Player player) {
 
-    public ArrayList<Field> getFields(){return null;}
+    }
+
+    public Player getFieldOwner(char codeChar, int codeInt){return null;}
+
+    //public ArrayList<Field> getFields(){return null;}
 
     public Boolean isWinner(Player player){return false;}
 }

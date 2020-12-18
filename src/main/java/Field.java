@@ -13,7 +13,9 @@ public class Field {
         this.getGridCoordinateY = gridCoordinateY;
     }
 
-
+    public void addNeighbor(Field neighbor) {
+        neighbors.add(neighbor);
+    }
 
 
 //    public ArrayList<Field> getNeighbors(Field field) {
@@ -22,7 +24,12 @@ public class Field {
 //
 //    public void setOwner(Player player){}
 //
-//    public Player getOwner(){return null;}
+    public Player getFieldOccupant(char codeChar, int codeInt) {
+      return null;
+    }
+      public Player getOwner() {
+        return null;
+    }
 //
 //
 //    public int getX(){return 0;}
