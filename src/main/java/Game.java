@@ -21,7 +21,6 @@ public class Game{
         this.prophet = prophet;
 
         playersList = new Player[expectedNumberOfPlayers];
-        board = new Board(5);   // for now always size 5
     }
 
 
@@ -39,6 +38,7 @@ public class Game{
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
             writeMessageToAll("Game begins now!!!");
+            board = new Board(5, playersList);   // for now always size 5
             play= true;
         }
 
@@ -86,8 +86,8 @@ public class Game{
         if(play) {
             if (currentPlayer.getNumber() == playerNumber) {
                 if (prophet.move(fieldFrom, fieldTo, playersList[playerNumber],  board)) {
-                    board.setField(fieldFrom.getKey(), fieldFrom.getValue(), null);
-                    board.setField(fieldFrom.getKey(), fieldFrom.getValue(), playersList[playerNumber]);
+                    board.setFieldOccupant(fieldFrom.getKey(), fieldFrom.getValue(), null);
+                    board.setFieldOccupant(fieldFrom.getKey(), fieldFrom.getValue(), playersList[playerNumber]);
 
                     writeMoveToAll(fieldFrom.getKey() + fieldFrom.getValue() + " " + fieldTo.getKey() + fieldTo.getValue());
                     isWinner(currentPlayer);

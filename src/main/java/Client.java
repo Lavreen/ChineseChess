@@ -92,10 +92,7 @@ public class Client {
             System.err.println("Bad input, only IP is needed");
             return;
         }
-        Board board = new Board(3);
-        board.generateBoard();
 
-        //board.printBoard();
         Client client;
         try {
             client = new Client(args[0]);

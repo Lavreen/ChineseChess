@@ -17,12 +17,12 @@ public class Prophet {
      */
     public boolean move(FieldCode fieldFrom, FieldCode fieldTo, Player player, Board board){        //for now player can fly to any free field
 
-//        if(board.getFieldOwner(fieldFrom.getKey(), fieldFrom.getValue()) == player
-//                && board.getFieldOwner(fieldTo.getKey(), fieldTo.getValue()) == null
-//        ){
-//            return true;
-//        }
-//
+        if(board.getFieldOccupant(fieldFrom.getKey(), fieldFrom.getValue()) == player
+                && board.getFieldOccupant(fieldTo.getKey(), fieldTo.getValue()) == null
+        ){
+            return true;
+          }
+
          return false;
     }
 
