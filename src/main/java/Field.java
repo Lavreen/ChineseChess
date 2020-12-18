@@ -2,9 +2,14 @@ import java.util.ArrayList;
 
 public class Field {
 
+    char color;
+    int number, gridCoordinateX, getGridCoordinateY;
     public Field (char color, int number, int gridCoordinateX, int gridCoordinateY)
     {
-
+        this.color = color;
+        this.number = number;
+        this.gridCoordinateX = gridCoordinateX;
+        this.getGridCoordinateY = gridCoordinateY;
     }
 
 
@@ -14,9 +19,7 @@ public class Field {
     private ArrayList<Field> neighbours;
     private Player owner;
     private Player target;
-    /*
-    Wpisałem narazie x,y. Jak będziesz to robił to zamień na twój pomysł na numeracje.
-     */
+
     private int x;
     private int y;
 

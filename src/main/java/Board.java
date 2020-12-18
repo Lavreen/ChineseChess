@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Board {
     enum orientation {
@@ -9,8 +10,8 @@ public class Board {
     int X; // dimensions of the rectangle which the board fits in
     int Y; //
 
-    private boolean[][] grid; // "true" - field exists
-    public Field[][] fields;
+    public boolean[][] grid = new boolean[100][100]; // "true" - field exists
+    public Field[][] fields = new Field[100][100];
 
     int redOriginX, redOriginY;  // coordinates of the vertex from which the triangle generation starts
     int blackOriginX, blackOriginY;
@@ -44,6 +45,7 @@ public class Board {
 
         yellowOriginX = SIZE - 1;
         yellowOriginY = Y / 2 - 1;
+
     }
 
 
@@ -56,7 +58,7 @@ public class Board {
      */
 
 
-    private void generateBoard() {
+    public void generateBoard() {
         generateTriangle(orientation.DOWNWARDS,'R', redOriginX, redOriginY);
         generateTriangle(orientation.UPWARDS, 'B', blackOriginX, blackOriginY);
         generateTriangle(orientation.DOWNWARDS, 'V', violetOriginX, violetOriginY);
@@ -81,6 +83,10 @@ public class Board {
                     x += 2;
                 }
                 else {
+                    if(color == 'Y') {
+                        hexagonOriginX = x + 2;
+                        hexagonOriginY = y;
+                    }
                     x = rowBeginningX - 1;
                     switch (orientation) {
                         case DOWNWARDS -> y = rowBeginningY + 1;
@@ -90,10 +96,7 @@ public class Board {
             }
 
         }
-        if(color == 'Y') {
-            hexagonOriginX = x + 2;
-            hexagonOriginY = y;
-        }
+
     }
 
     private void generateHexagon(int x, int y) {
@@ -104,12 +107,15 @@ public class Board {
             rowBeginningX = x;
             rowBeginningY = y;
             lastRowFieldCount = 0;
-            for (int j = 0; j < i + SIZE + 2; j++) {
+            for (int j = 0; j < i + SIZE + 1; j++) {
                 grid[x][y] = true;
                 fields[x][y] = new Field('H', generatedFieldNumber, x, y);
+//                System.out.print(x);
+//                System.out.print(", ");
+//                System.out.println(y);
                 generatedFieldNumber++;
                 lastRowFieldCount++;
-                if(j < i + SIZE + 1) {
+                if(j < i + SIZE) {
                     x += 2;
                 }
                 else {
@@ -123,11 +129,11 @@ public class Board {
         for (int i = 0; i < SIZE; i++) {
             rowBeginningX = x;
             rowBeginningY = y;
-            for (int j = 0; j < lastRowFieldCount; j++) {
+            for (int j = 0; j < lastRowFieldCount - 1; j++) {
                 grid[x][y] = true;
                 fields[x][y] = new Field('H', generatedFieldNumber, x, y);
                 generatedFieldNumber++;
-                if(j < i + SIZE + 1) {
+                if(j < lastRowFieldCount - 2) {
                     x += 2;
                 }
                 else {
@@ -139,6 +145,18 @@ public class Board {
         }
     }
 
+    public void printBoard() {
+        for (int y = 0; y < Y; y++) {
+            for (int x = 0; x < X; x++) {
+                if (grid[x][y] != true) {
+                    System.out.print("  ");
+                } else {
+                    System.out.print('W');
+                }
+            }
+            System.out.println();
+        }
+    }
     private void setFieldsNeighbours() {}
 
     public ArrayList<Field> getFields(){return null;}
