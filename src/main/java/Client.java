@@ -66,13 +66,14 @@ public class Client {
     }
 
     public static void main(String[] args) {
-//        if (args.length != 1) {
-//            System.err.println("Bad input, only IP is needed");
-//            return;
-//        }
+        if (args.length != 1) {
+            System.err.println("Bad input, only IP is needed");
+            return;
+        }
         Board board = new Board(3);
         board.generateBoard();
-        board.printBoard();
+
+        //board.printBoard();
         Client client;
         try {
             client = new Client(args[0]);

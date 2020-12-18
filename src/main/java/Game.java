@@ -1,4 +1,4 @@
-public class Game{
+public class Game {
     private Board board;
     private Player[] playersList;
     private int expectedNumberOfPlayers;
@@ -52,8 +52,8 @@ public class Game{
         if(play) {
             if (currentPlayer.getNumber() == playerNumber) {
                 if (prophet.move(fieldFrom, fieldTo, playersList[playerNumber],  board)) {
-               //     board.setField(fieldFrom.getKey(), fieldFrom.getValue(), null);
-              //      board.setField(fieldFrom.getKey(), fieldFrom.getValue(), playersList[playerNumber]);
+                    board.setField(fieldFrom.getKey(), fieldFrom.getValue(), null);
+                    board.setField(fieldFrom.getKey(), fieldFrom.getValue(), playersList[playerNumber]);
 
                     writeMoveToAll(fieldFrom.getKey() + fieldFrom.getValue() + " " + fieldTo.getKey() + fieldTo.getValue());
                     isWinner(currentPlayer);

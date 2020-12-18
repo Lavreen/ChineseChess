@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Board {
     enum orientation {
@@ -12,6 +11,7 @@ public class Board {
 
     public boolean[][] grid = new boolean[100][100]; // "true" - field exists
     public Field[][] fields = new Field[100][100];
+    //public ArrayList<Field>[][] neighborsArrayList = new ArrayList[100][100]
 
     int redOriginX, redOriginY;  // coordinates of the vertex from which the triangle generation starts
     int blackOriginX, blackOriginY;
@@ -67,6 +67,36 @@ public class Board {
         generateTriangle(orientation.UPWARDS, 'Y', yellowOriginX, yellowOriginY);
 
         generateHexagon(hexagonOriginX, hexagonOriginY);
+
+        appendNeighbors();
+    }
+
+    public void appendNeighbors() {
+        for (int y = 0; y < Y; y++) {
+            for (int x = 0; x < X; x++) {
+                if(grid[x - 2][y]) {
+                    fields[x][y].neighbors.add(fields[x - 2][y]);
+                }
+                if(grid[x - 1][y - 1]) {
+                    fields[x][y].neighbors.add(fields[x - 1][y - 1]);
+                }
+                if(grid[x + 1][y - 1]) {
+                    fields[x][y].neighbors.add(fields[x + 1][y - 1]);
+                }
+                if(grid[x + 2][y]) {
+                    fields[x][y].neighbors.add(fields[x + 2][y]);
+                }
+                if(grid[x + 1][y + 1]) {
+                    fields[x][y].neighbors.add(fields[x + 1][y + 1]);
+                }
+                if(grid[x - 1][y + 1]) {
+                    fields[x][y].neighbors.add(fields[x - 1][y + 1]);
+                }
+
+
+            }
+
+        }
     }
 
     private void generateTriangle(orientation orientation, char color, int x, int y) {
@@ -110,9 +140,6 @@ public class Board {
             for (int j = 0; j < i + SIZE + 1; j++) {
                 grid[x][y] = true;
                 fields[x][y] = new Field('H', generatedFieldNumber, x, y);
-//                System.out.print(x);
-//                System.out.print(", ");
-//                System.out.println(y);
                 generatedFieldNumber++;
                 lastRowFieldCount++;
                 if(j < i + SIZE) {
