@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class Field {
 
-    private static char color;
-    private static int number, gridCoordinateX, GridCoordinateY;
+    private final char color;
+    private final int number, gridCoordinateX, GridCoordinateY;
 
     private ArrayList<Field> neighbors = new ArrayList<>();
 
@@ -22,36 +22,20 @@ public class Field {
         neighbors.add(neighbor);
     }
 
-    public static char getColor() {
+    public char getColor() {
         return color;
     }
 
-    public static void setColor(char color) {
-        Field.color = color;
-    }
-
-    public static int getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public static void setNumber(int number) {
-        Field.number = number;
-    }
-
-    public static int getGridCoordinateX() {
+    public int getGridCoordinateX() {
         return gridCoordinateX;
     }
 
-    public static void setGridCoordinateX(int gridCoordinateX) {
-        Field.gridCoordinateX = gridCoordinateX;
-    }
-
-    public static int getGridCoordinateY() {
+    public int getGridCoordinateY() {
         return GridCoordinateY;
-    }
-
-    public static void setGridCoordinateY(int gridCoordinateY) {
-        Field.GridCoordinateY = gridCoordinateY;
     }
 
     public Player getTargetOf() {

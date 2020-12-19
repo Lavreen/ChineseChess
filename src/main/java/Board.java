@@ -52,15 +52,16 @@ public class Board {
         yellowOriginX = SIZE - 1;
         yellowOriginY = Y / 2 - 1;
 
+        generateBoard();
     }
 
     // Default arms' colors used as pivot names
 
     /**
      * yellow      red       black
-     * <p>
-     * HEX
-     * <p>
+     *
+     *              HEX
+     *
      * white       green       violet
      */
 
@@ -120,8 +121,10 @@ public class Board {
                             targetOf = (generatedTrianglesCount + 1) % 2;
                             fields[x][y].setTargetOf(players[targetOf]);
                         }
-                        if (generatedTrianglesCount == 0 || generatedTrianglesCount == 3)
-                            fields[x][y].setOccupant(players[generatedTrianglesCount]);
+                        if (generatedTrianglesCount == 0)
+                            fields[x][y].setOccupant(players[0]);
+                        if(generatedTrianglesCount == 3)
+                            fields[x][y].setOccupant(players[1]);
                         break;
                     case 3:
                         if (generatedTrianglesCount % 2 == 1) {
@@ -213,7 +216,7 @@ public class Board {
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
                 if (!isNull(fields[x][y])) {
-                    if (Field.getColor() == codeChar && Field.getNumber() == codeInt) {
+                    if (fields[x][y].getColor() == codeChar && fields[x][y].getNumber() == codeInt) {
                         fields[x][y].setOccupant(player);
                         return;
                     }
@@ -226,7 +229,7 @@ public class Board {
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
                 if (!isNull(fields[x][y])) {
-                    if (Field.getColor() == codeChar && Field.getNumber() == codeInt)
+                    if (fields[x][y].getColor() == codeChar && fields[x][y].getNumber() == codeInt)
                         return fields[x][y].getOccupant();
                 }
             }
@@ -238,7 +241,7 @@ public class Board {
         int count = 0;
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
-                if (!isNull(fields[x][y])) {
+                if(!isNull(fields[x][y]) && !isNull(fields[x][y].getOccupant()) && !isNull(fields[x][y].getTargetOf())){
                     if (fields[x][y].getOccupant().equals(player) && fields[x][y].getTargetOf().equals(fields[x][y].getOccupant()))
                         count++;
                     if (count == triangleFieldCount())
