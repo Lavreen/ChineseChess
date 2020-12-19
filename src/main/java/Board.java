@@ -83,22 +83,22 @@ public class Board {
             for (int x = 0; x < X; x++) {
                 if (grid[x][y]) {
                     if (x >= 2 && grid[x - 2][y]) {
-                        fields[x][y].addNeighbor(fields[x - 2][y]);
+                        fields[x][y].addNeighbor(fields[x - 2][y], "west");
                     }
                     if (x >= 1 && y >= 1 && grid[x - 1][y - 1]) {
-                        fields[x][y].addNeighbor(fields[x - 1][y - 1]);
+                        fields[x][y].addNeighbor(fields[x - 1][y - 1], "north_west");
                     }
                     if (x < X - 1 && y >= 1 && grid[x + 1][y - 1]) {
-                        fields[x][y].addNeighbor(fields[x + 1][y - 1]);
+                        fields[x][y].addNeighbor(fields[x + 1][y - 1], "north_east");
                     }
                     if (x < X - 2 && grid[x + 2][y]) {
-                        fields[x][y].addNeighbor(fields[x + 2][y]);
+                        fields[x][y].addNeighbor(fields[x + 2][y], "east");
                     }
                     if (x < X - 1 && y < Y - 1 && grid[x + 1][y + 1]) {
-                        fields[x][y].addNeighbor(fields[x + 1][y + 1]);
+                        fields[x][y].addNeighbor(fields[x + 1][y + 1], "south_east");
                     }
                     if (x >= 1 && y < Y - 1 && grid[x - 1][y + 1]) {
-                        fields[x][y].addNeighbor(fields[x - 1][y + 1]);
+                        fields[x][y].addNeighbor(fields[x - 1][y + 1], "south_west");
                     }
                 }
             }

@@ -1,11 +1,21 @@
 import java.util.ArrayList;
 
+class Pair {
+
+    Field first;
+    String second;
+
+    public Pair(Field first, String second) {
+        this.first = first;
+        this.second = second;
+    }
+}
 public class Field {
 
     private final char color;
     private final int number, gridCoordinateX, GridCoordinateY;
 
-    private ArrayList<Field> neighbors = new ArrayList<>();
+    private ArrayList<Pair> neighbors = new ArrayList<>();
 
     private Player occupant = null;
     private Player targetOf = null;
@@ -18,8 +28,9 @@ public class Field {
         this.GridCoordinateY = gridCoordinateY;
     }
 
-    public void addNeighbor(Field neighbor) {
-        neighbors.add(neighbor);
+    public void addNeighbor(Field neighbor, String direction) {
+        Pair pair = new Pair(neighbor, direction);
+        neighbors.add(pair);
     }
 
     public char getColor() {
