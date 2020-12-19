@@ -33,6 +33,15 @@ public class Field {
         neighbors.add(pair);
     }
 
+    public boolean isNeighbor(char codeChar, int codeInt){
+        for(Pair neighbor : neighbors){
+            if(neighbor.first.getColor() == codeChar && neighbor.first.getNumber() == codeInt){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public char getColor() {
         return color;
     }

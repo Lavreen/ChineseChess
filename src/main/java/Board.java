@@ -258,4 +258,19 @@ public class Board {
             count += i;
         return count;
     }
+
+    public boolean areNeighbours(char  codeCharOne, int codeIntOne, char  codeCharTwo, int codeIntTwo){
+
+        for (int y = 0; y < Y; y++) {
+            for (int x = 0; x < X; x++) {
+                if (!isNull(fields[x][y])) {
+                    if (fields[x][y].getColor() == codeCharOne && fields[x][y].getNumber() == codeIntOne)
+                        return fields[x][y].isNeighbor(codeCharTwo, codeIntTwo);
+                }
+            }
+        }
+        return false;
+    }
+
+
 }
