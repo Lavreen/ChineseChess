@@ -1,10 +1,13 @@
-import java.util.ArrayList;
-
 public class Board {
-    enum orientation {
+    enum direction {
         DOWNWARDS,
         UPWARDS
     }
+
+    /**
+     * rekurencja:
+     * wychodzac od pola, na ktore chcemy sie dostac, bierzemy jego *zajetych* sasiadow, i sprawdzamy ich *wolnych* sasiadow z tego samego kierunku. teraz bierzemy ich *zajetych* sasiadow tych sasiadow i powtarzamy proces, az ktorys z *wolnych* sasiadow bedzie polem, na ktorym stoimy. niemozliwosc znalezienia sasiadow ze spelnionymi kryteriami zwraca od razu false.
+     */
     private static int SIZE; // "size" means the number of fields in every triangle-shaped board "arm's" base
     private static int X; // dimensions of the rectangle which the board fits in
     private static int Y; //
@@ -52,7 +55,7 @@ public class Board {
 
     }
 
-
+    // Default arms' colors used as pivot names
     /**
      *  yellow      red       black
      *
@@ -63,12 +66,12 @@ public class Board {
 
 
     public void generateBoard() {
-        generateTriangle(orientation.DOWNWARDS,'R', redOriginX, redOriginY);
-        generateTriangle(orientation.UPWARDS, 'B', blackOriginX, blackOriginY);
-        generateTriangle(orientation.DOWNWARDS, 'V', violetOriginX, violetOriginY);
-        generateTriangle(orientation.UPWARDS, 'G', greenOriginX, greenOriginY);
-        generateTriangle(orientation.DOWNWARDS, 'W', whiteOriginX, whiteOriginY);
-        generateTriangle(orientation.UPWARDS, 'Y', yellowOriginX, yellowOriginY);
+        generateTriangle(direction.DOWNWARDS,'R', redOriginX, redOriginY);
+        generateTriangle(direction.UPWARDS, 'B', blackOriginX, blackOriginY);
+        generateTriangle(direction.DOWNWARDS, 'V', violetOriginX, violetOriginY);
+        generateTriangle(direction.UPWARDS, 'G', greenOriginX, greenOriginY);
+        generateTriangle(direction.DOWNWARDS, 'W', whiteOriginX, whiteOriginY);
+        generateTriangle(direction.UPWARDS, 'Y', yellowOriginX, yellowOriginY);
         generateHexagon(hexagonOriginX, hexagonOriginY);
 
         appendNeighbors();
@@ -103,7 +106,7 @@ public class Board {
         }
     }
 
-    private void generateTriangle(orientation orientation, char color, int x, int y) {
+    private void generateTriangle(direction direction, char color, int x, int y) {
         int rowBeginningX, rowBeginningY;
         int generatedFieldNumber = 1;
         int targetOf;
@@ -149,7 +152,7 @@ public class Board {
                         hexagonOriginY = y;
                     }
                     x = rowBeginningX - 1;
-                    switch (orientation) {
+                    switch (direction) {
                         case DOWNWARDS -> y = rowBeginningY + 1;
                         case UPWARDS -> y = rowBeginningY - 1;
                     }
@@ -243,10 +246,17 @@ public class Board {
             for (int x = 0; x < X; x++) {
                 if(fields[x][y].getOccupant() == player && fields[x][y].getTargetOf() == fields[x][y].getOccupant())
                     count++;
-                if(count == 10)
+                if(count == triangleFieldCount())
                     return true;
             }
         }
         return false;
+    }
+
+    private int triangleFieldCount() {
+        int count = 1;
+        for (int i = 2; i <= SIZE; i++)
+            count += i;
+        return count;
     }
 }

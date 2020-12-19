@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @see Client
  */
 
-public class Player implements Runnable{
+public class  Player implements Runnable{
     private Socket socket;
     private Scanner input;
     private PrintWriter output;
