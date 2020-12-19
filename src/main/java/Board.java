@@ -1,13 +1,11 @@
+import static java.util.Objects.isNull;
+
 public class Board {
     enum direction {
         DOWNWARDS,
         UPWARDS
     }
 
-    /**
-     * rekurencja:
-     * wychodzac od pola, na ktore chcemy sie dostac, bierzemy jego *zajetych* sasiadow, i sprawdzamy ich *wolnych* sasiadow z tego samego kierunku. teraz bierzemy ich *zajetych* sasiadow tych sasiadow i powtarzamy proces, az ktorys z *wolnych* sasiadow bedzie polem, na ktorym stoimy. niemozliwosc znalezienia sasiadow ze spelnionymi kryteriami zwraca od razu false.
-     */
     private static int SIZE; // "size" means the number of fields in every triangle-shaped board "arm's" base
     private static int X; // dimensions of the rectangle which the board fits in
     private static int Y; //
@@ -139,9 +137,6 @@ public class Board {
                             fields[x][y].setOccupant(players[generatedTrianglesCount]);
                         break;
                 }
-                //targetOf = (generatedTrianglesCount + 3) % 6;
-                //fields[x][y] = new Field(color, generatedFieldNumber,players[] , x, y);
-
                 generatedFieldNumber++;
                 if(j < i) {
                     x += 2;
@@ -244,10 +239,12 @@ public class Board {
         int count = 0;
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
-                if(fields[x][y].getOccupant() == player && fields[x][y].getTargetOf() == fields[x][y].getOccupant())
-                    count++;
-                if(count == triangleFieldCount())
-                    return true;
+                if (!isNull(fields[x][y])) {
+                    if (fields[x][y].getOccupant().equals(player) && fields[x][y].getTargetOf().equals(fields[x][y].getOccupant()))
+                        count++;
+                    if (count == triangleFieldCount())
+                        return true;
+                }
             }
         }
         return false;
