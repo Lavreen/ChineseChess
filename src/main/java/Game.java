@@ -28,17 +28,22 @@ public class Game{
      * Method which adds player to game
      * @param player player
      */
-    public void addPlayer(Player player){
+    public synchronized void addPlayer(Player player){
         player.setNumber(currentNumberOfPlayers);
         playersList[currentNumberOfPlayers] = player;
         currentNumberOfPlayers++;
         currentPlayer = player;         //who connect last starts the game
 
+        try {
+            wait(1000); //narazie brzydko
+        } catch (InterruptedException e) {
+        }
+
         writeMessageToAll("New player joined! Current state: " + currentNumberOfPlayers + "/" + expectedNumberOfPlayers);
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
             writeMessageToAll("Game begins now!!!");
-            board = new Board(5, playersList);   // for now always size 5
+            board = new Board(4, playersList);   // for now always size 4
             play= true;
         }
 
