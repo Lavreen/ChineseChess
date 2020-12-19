@@ -2,41 +2,71 @@ import java.util.ArrayList;
 
 public class Field {
 
-    char color;
-    int number, gridCoordinateX, getGridCoordinateY;
-    public ArrayList<Field> neighbors;
+    private static char color;
+    private static int number, gridCoordinateX, GridCoordinateY;
+
+    private ArrayList<Field> neighbors = new ArrayList<>();
+
+    private Player occupant = null;
+    private Player targetOf = null;
+
     public Field (char color, int number, int gridCoordinateX, int gridCoordinateY)
     {
         this.color = color;
         this.number = number;
         this.gridCoordinateX = gridCoordinateX;
-        this.getGridCoordinateY = gridCoordinateY;
+        this.GridCoordinateY = gridCoordinateY;
     }
 
     public void addNeighbor(Field neighbor) {
         neighbors.add(neighbor);
     }
 
+    public static char getColor() {
+        return color;
+    }
 
-//    public ArrayList<Field> getNeighbors(Field field) {
-//        return null;
-//    }
-//
-//    public void setOwner(Player player){}
-//
-    public Player getFieldOccupant(char codeChar, int codeInt) {
-      return null;
+    public static void setColor(char color) {
+        Field.color = color;
     }
-      public Player getOwner() {
-        return null;
+
+    public static int getNumber() {
+        return number;
     }
-//
-//
-//    public int getX(){return 0;}
-//
-//    public void setX(int x){}
-//
-//    public int getY(){return 0;}
-//
-//    public void setY(int y){}
+
+    public static void setNumber(int number) {
+        Field.number = number;
+    }
+
+    public static int getGridCoordinateX() {
+        return gridCoordinateX;
+    }
+
+    public static void setGridCoordinateX(int gridCoordinateX) {
+        Field.gridCoordinateX = gridCoordinateX;
+    }
+
+    public static int getGridCoordinateY() {
+        return GridCoordinateY;
+    }
+
+    public static void setGridCoordinateY(int gridCoordinateY) {
+        Field.GridCoordinateY = gridCoordinateY;
+    }
+
+    public Player getTargetOf() {
+        return targetOf;
+    }
+
+    public void setTargetOf(Player targetOf) {
+        this.targetOf = targetOf;
+    }
+
+    public Player getOccupant() {
+        return occupant;
+    }
+
+    public void setOccupant(Player occupant) {
+        this.occupant = occupant;
+    }
 }

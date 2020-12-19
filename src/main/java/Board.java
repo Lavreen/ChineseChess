@@ -5,23 +5,25 @@ public class Board {
         DOWNWARDS,
         UPWARDS
     }
-    private int SIZE; // "size" means the number of fields in every triangle-shaped board "arm's" base
-    int X; // dimensions of the rectangle which the board fits in
-    int Y; //
+    private static int SIZE; // "size" means the number of fields in every triangle-shaped board "arm's" base
+    private static int X; // dimensions of the rectangle which the board fits in
+    private static int Y; //
 
-    public boolean[][] grid; // "true" - field exists
-    public Field[][] fields;
-    //public ArrayList<Field>[][] neighborsArrayList = new ArrayList[100][100]
+    private boolean[][] grid; // "true" - field exists
+    private Field[][] fields;
+    private Player[] players;
 
-    int redOriginX, redOriginY;  // coordinates of the vertex from which the triangle generation starts
-    int blackOriginX, blackOriginY;
-    int violetOriginX, violetOriginY;
-    int greenOriginX, greenOriginY;
-    int whiteOriginX, whiteOriginY;
-    int yellowOriginX, yellowOriginY;
-    int hexagonOriginX, hexagonOriginY;
+    private static int redOriginX, redOriginY;  // coordinates of the vertex from which the triangle generation starts
+    private static int blackOriginX, blackOriginY;
+    private static int violetOriginX, violetOriginY;
+    private static int greenOriginX, greenOriginY;
+    private static int whiteOriginX, whiteOriginY;
+    private static int yellowOriginX, yellowOriginY;
+    private static int hexagonOriginX, hexagonOriginY;
 
-    public Board(int size) {
+    private int generatedTrianglesCount = 0;
+    public Board(int size, Player[] players) {
+        this.players = players;
         SIZE = size;
         if(SIZE < 1)
             SIZE = 1;
@@ -67,7 +69,6 @@ public class Board {
         generateTriangle(orientation.UPWARDS, 'G', greenOriginX, greenOriginY);
         generateTriangle(orientation.DOWNWARDS, 'W', whiteOriginX, whiteOriginY);
         generateTriangle(orientation.UPWARDS, 'Y', yellowOriginX, yellowOriginY);
-
         generateHexagon(hexagonOriginX, hexagonOriginY);
 
         appendNeighbors();
@@ -76,27 +77,26 @@ public class Board {
     public void appendNeighbors() {
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
-
-                if(x >= 2 && grid[x - 2][y]) {
+            if(grid[x][y]) {
+                if (x >= 2 && grid[x - 2][y]) {
                     fields[x][y].addNeighbor(fields[x - 2][y]);
                 }
-
-                if(x >= 1 && y >= 1 && grid[x - 1][y - 1]) {
+                if (x >= 1 && y >= 1 && grid[x - 1][y - 1]) {
                     fields[x][y].addNeighbor(fields[x - 1][y - 1]);
                 }
-                if(x < X - 1 && y >= 1 && grid[x + 1][y - 1]) {
+                if (x < X - 1 && y >= 1 && grid[x + 1][y - 1]) {
                     fields[x][y].addNeighbor(fields[x + 1][y - 1]);
                 }
-                if(x < X - 2 && grid[x + 2][y]) {
+                if (x < X - 2 && grid[x + 2][y]) {
                     fields[x][y].addNeighbor(fields[x + 2][y]);
                 }
-                if(x < X - 1 && y < Y - 1 && grid[x + 1][y + 1]) {
+                if (x < X - 1 && y < Y - 1 && grid[x + 1][y + 1]) {
                     fields[x][y].addNeighbor(fields[x + 1][y + 1]);
                 }
-                if(x >= 1 && y< Y - 1 && grid[x - 1][y + 1]) {
+                if (x >= 1 && y < Y - 1 && grid[x - 1][y + 1]) {
                     fields[x][y].addNeighbor(fields[x - 1][y + 1]);
                 }
-
+            }
 
             }
 
@@ -106,12 +106,39 @@ public class Board {
     private void generateTriangle(orientation orientation, char color, int x, int y) {
         int rowBeginningX, rowBeginningY;
         int generatedFieldNumber = 1;
+        int targetOf;
         for (int i = 0; i < SIZE; i++) {
             rowBeginningX = x;
             rowBeginningY = y;
             for (int j = 0; j < i+1; j++) {
                 grid[x][y] = true;
                 fields[x][y] = new Field(color, generatedFieldNumber, x, y);
+                switch(players.length) { // do dorobienia dla 4 i 6 graczy
+                    case 2:
+                        if(generatedTrianglesCount == 0 || generatedTrianglesCount == 3) {
+                            targetOf = (generatedTrianglesCount + 1) % 2;
+                            fields[x][y].setTargetOf(players[targetOf]);
+                        }
+                        if(generatedTrianglesCount == 0 || generatedTrianglesCount == 3)
+                            fields[x][y].setOccupant(players[generatedTrianglesCount]);
+                        break;
+                    case 3:
+                        if(generatedTrianglesCount % 2 == 1) {
+                            switch(generatedTrianglesCount) {
+                                case 1 -> targetOf = 2;
+                                case 3 -> targetOf = 0;
+                                case 5 -> targetOf = 1;
+                                default -> targetOf = 1337;
+                            }
+                            fields[x][y].setTargetOf(players[targetOf]);
+                        }
+                        if(generatedTrianglesCount % 2 == 0)
+                            fields[x][y].setOccupant(players[generatedTrianglesCount]);
+                        break;
+                }
+                //targetOf = (generatedTrianglesCount + 3) % 6;
+                //fields[x][y] = new Field(color, generatedFieldNumber,players[] , x, y);
+
                 generatedFieldNumber++;
                 if(j < i) {
                     x += 2;
@@ -130,7 +157,7 @@ public class Board {
             }
 
         }
-
+        generatedTrianglesCount++;
     }
 
     private void generateHexagon(int x, int y) {
@@ -188,13 +215,38 @@ public class Board {
             System.out.println();
         }
     }
-    public void setField(char codeChar, int codeInt, Player player) {
 
+    public void setFieldOccupant(char codeChar, int codeInt, Player player) {
+        for (int y = 0; y < Y; y++) {
+            for (int x = 0; x < X; x++) {
+               if(fields[x][y].getColor() == codeChar && fields[x][y].getNumber() == codeInt) {
+                   fields[x][y].setOccupant(player);
+                   return;
+               }
+            }
+        }
     }
 
-    public Player getFieldOwner(char codeChar, int codeInt){return null;}
+    public Player getFieldOccupant(char codeChar, int codeInt) {
+        for (int y = 0; y < Y; y++) {
+            for (int x = 0; x < X; x++) {
+                if(fields[x][y].getColor() == codeChar && fields[x][y].getNumber() == codeInt)
+                    return fields[x][y].getOccupant();
+            }
+        }
+        return null;
+    }
 
-    //public ArrayList<Field> getFields(){return null;}
-
-    public Boolean isWinner(Player player){return false;}
+    public boolean isWinner(Player player){
+        int count = 0;
+        for (int y = 0; y < Y; y++) {
+            for (int x = 0; x < X; x++) {
+                if(fields[x][y].getOccupant() == player && fields[x][y].getTargetOf() == fields[x][y].getOccupant())
+                    count++;
+                if(count == 10)
+                    return true;
+            }
+        }
+        return false;
+    }
 }
