@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  *Calls with rules
  */
@@ -17,8 +19,11 @@ public class Prophet {
      */
     public boolean move(FieldCode fieldFrom, FieldCode fieldTo, Player player, Board board){        //for now player can fly to any free field
 
-        if(board.getFieldOccupant(fieldFrom.getKey(), fieldFrom.getValue()) == player
-                && board.getFieldOccupant(fieldTo.getKey(), fieldTo.getValue()) == null
+        board.printBoard();
+
+        if(!Objects.isNull( board.getFieldOccupant(fieldFrom.getKey(), fieldFrom.getValue()))
+                && board.getFieldOccupant(fieldFrom.getKey(), fieldFrom.getValue()).equals(player)
+                && Objects.isNull(board.getFieldOccupant(fieldTo.getKey(), fieldTo.getValue()))
         ){
             return true;
           }
