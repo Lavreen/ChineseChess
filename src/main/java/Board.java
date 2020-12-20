@@ -193,8 +193,8 @@ public class Board {
                         }
                         break;
                     case 6:
-                        fields[x][y].setTargetOf(players[generatedTrianglesCount + 3 % 6]);
-                        fields[x][y].setTargetOf(players[generatedTrianglesCount]);
+                        fields[x][y].setTargetOf(players[(generatedTrianglesCount + 3) % 6]);
+                        fields[x][y].setOccupant(players[generatedTrianglesCount]);
                         break;
                 }
                 generatedFieldNumber++;
