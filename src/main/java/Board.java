@@ -1,6 +1,10 @@
+import jdk.swing.interop.SwingInterOpUtils;
+
 import static java.util.Objects.isNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Stack;
 
 public class Board {
     enum direction {
@@ -254,14 +258,7 @@ public class Board {
         return false;
     }
 
-    private int triangleFieldCount() {
-        int count = 1;
-        for (int i = 2; i <= SIZE; i++)
-            count += i;
-        return count;
-    }
-
-    public boolean areNeighbours(char codeCharOne, int codeIntOne, char codeCharTwo, int codeIntTwo) {
+    public boolean areNeighbours(char  codeCharOne, int codeIntOne, char  codeCharTwo, int codeIntTwo){
 
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
@@ -273,7 +270,60 @@ public class Board {
         }
         return false;
     }
-    //
+
+    private int triangleFieldCount() {
+        int count = 1;
+        for (int i = 2; i <= SIZE; i++)
+            count += i;
+        return count;
+    }
+
+    public boolean areFarNeighbours(char  codeCharOne, int codeIntOne, char  codeCharTwo, int codeIntTwo){
+        Field fieldOne = null, fieldTwo = null;
+
+        for (int y = 0; y < Y; y++) {
+            for (int x = 0; x < X; x++) {
+                if (!isNull(fields[x][y])) {
+                    if (fields[x][y].getColor() == codeCharOne && fields[x][y].getNumber() == codeIntOne)
+                        fieldOne = fields[x][y];
+
+                    if (fields[x][y].getColor() == codeCharTwo && fields[x][y].getNumber() == codeIntTwo)
+                        fieldTwo = fields[x][y];
+                }
+            }
+        }
+
+        if(Objects.isNull(fieldOne) || Objects.isNull(fieldTwo)){
+            return false;
+        }
+
+        Stack<Field> stack = new Stack<>();
+        ArrayList<Field> list = new ArrayList<>();
+
+        stack.push(fieldOne);
+
+        while(!stack.empty()){
+            Field temp = stack.pop();
+
+            System.out.println(temp.getColor() +" " + temp.getNumber());
+
+            if(temp.equals(fieldTwo)){
+                return true;
+            }
+
+            list.add(temp);
+
+            for(Field field: jumpNeighbors(temp)){
+                if(!list.contains(field)){
+                    stack.push(field);
+                }
+            }
+        }
+
+        return false;
+    }
+
+
     public ArrayList<Field> jumpNeighbors(Field field) {
         ArrayList<Field> jumpNeighbors = new ArrayList<>();
         for (Pair neighbor : field.getNeighbors()) {
