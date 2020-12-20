@@ -305,8 +305,6 @@ public class Board {
         while(!stack.empty()){
             Field temp = stack.pop();
 
-            System.out.println(temp.getColor() +" " + temp.getNumber());
-
             if(temp.equals(fieldTwo)){
                 return true;
             }
@@ -355,7 +353,7 @@ public class Board {
                                 jumpNeighbors.add(fields[neighbor.first.getGridCoordinateX() - 1][neighbor.first.getGridCoordinateY() + 1]);
                             break;
                     }
-                } catch (NullPointerException e) {
+                } catch (ArrayIndexOutOfBoundsException e) {
                 }
             }
         }
