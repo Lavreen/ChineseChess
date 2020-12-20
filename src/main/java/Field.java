@@ -10,6 +10,10 @@ class Pair {
         this.second = second;
     }
 }
+
+/**
+ * Fields on the board.
+ */
 public class Field {
 
     private final char color;
@@ -20,6 +24,13 @@ public class Field {
     private Player occupant = null;
     private Player targetOf = null;
 
+    /**
+     * The constructor of Field.
+     * @param color the first letter of the color of the board's arm the field belongs to
+     * @param number number
+     * @param gridCoordinateX position x of the field
+     * @param gridCoordinateY position y of the field
+     */
     public Field (char color, int number, int gridCoordinateX, int gridCoordinateY)
     {
         this.color = color;
@@ -28,11 +39,22 @@ public class Field {
         this.GridCoordinateY = gridCoordinateY;
     }
 
+    /**
+     * Adds the given neighbor to the field's information
+     * @param neighbor this field's neighbor
+     * @param direction direction in which you have to look for the neighbor
+     */
     public void addNeighbor(Field neighbor, String direction) {
         Pair pair = new Pair(neighbor, direction);
         neighbors.add(pair);
     }
 
+    /**
+     * Checks if the given field is the neighbor of this field
+     * @param codeChar color
+     * @param codeInt number
+     * @return
+     */
     public boolean isNeighbor(char codeChar, int codeInt){
         for(Pair neighbor : neighbors){
             if(neighbor.first.getColor() == codeChar && neighbor.first.getNumber() == codeInt){
@@ -62,6 +84,10 @@ public class Field {
         return targetOf;
     }
 
+    /**
+     * Sets this field as a target of the given player
+     * @param targetOf player which targets this field
+     */
     public void setTargetOf(Player targetOf) {
         this.targetOf = targetOf;
     }
@@ -70,6 +96,10 @@ public class Field {
         return occupant;
     }
 
+    /**
+     * Sets the given player as the one occupying the field
+     * @param occupant occupant
+     */
     public void setOccupant(Player occupant) {
         this.occupant = occupant;
     }

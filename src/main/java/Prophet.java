@@ -1,7 +1,7 @@
 import java.util.Objects;
 
 /**
- *Calls with rules
+ * Calls with rules
  */
 
 public class Prophet {
@@ -25,10 +25,10 @@ public class Prophet {
                 && board.getFieldOccupant(fieldFrom.getKey(), fieldFrom.getValue()).equals(player)
                 && Objects.isNull(board.getFieldOccupant(fieldTo.getKey(), fieldTo.getValue()))
         ){
-            if(board.areNeighbours(fieldFrom.getKey(), fieldFrom.getValue(), fieldTo.getKey(), fieldTo.getValue())){
+            if(board.areNeighbors(fieldFrom.getKey(), fieldFrom.getValue(), fieldTo.getKey(), fieldTo.getValue())){
                 return true;
             }
-            else if(board.areFarNeighbours(fieldFrom.getKey(), fieldFrom.getValue(), fieldTo.getKey(), fieldTo.getValue())){
+            else if(board.areFarNeighbors(fieldFrom.getKey(), fieldFrom.getValue(), fieldTo.getKey(), fieldTo.getValue())){
                 return true;
             }
           }
