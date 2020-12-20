@@ -273,7 +273,7 @@ public class Board {
         }
         return false;
     }
-
+    //
     public ArrayList<Field> jumpNeighbors(Field field) {
         ArrayList<Field> jumpNeighbors = new ArrayList<>();
         for (Pair neighbor : field.getNeighbors()) {
