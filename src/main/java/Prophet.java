@@ -25,10 +25,10 @@ public class Prophet {
                 && board.getFieldOccupant(fieldFrom.getKey(), fieldFrom.getValue()).equals(player)
                 && Objects.isNull(board.getFieldOccupant(fieldTo.getKey(), fieldTo.getValue()))
         ){
-            if(board.areNeighbours(fieldFrom.getKey(), fieldFrom.getValue(), fieldTo.getKey(), fieldFrom.getValue())){
+            if(board.areNeighbours(fieldFrom.getKey(), fieldFrom.getValue(), fieldTo.getKey(), fieldTo.getValue())){
                 return true;
             }
-            else if(false){
+            else if(board.areFarNeighbours(fieldFrom.getKey(), fieldFrom.getValue(), fieldTo.getKey(), fieldTo.getValue())){
                 return true;
             }
           }

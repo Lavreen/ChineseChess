@@ -43,7 +43,7 @@ public class Game{
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
             writeMessageToAll("Game begins now!!!");
-            board = new Board(2, playersList);   // for now always size 4
+            board = new Board(1, playersList);   // for now always size 4
             play= true;
         }
 
