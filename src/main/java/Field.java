@@ -73,4 +73,8 @@ public class Field {
     public void setOccupant(Player occupant) {
         this.occupant = occupant;
     }
+
+    public ArrayList<Pair> getNeighbors() {
+        return neighbors;
+    }
 }

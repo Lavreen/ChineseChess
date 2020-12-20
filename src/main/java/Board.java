@@ -1,5 +1,7 @@
 import static java.util.Objects.isNull;
 
+import java.util.ArrayList;
+
 public class Board {
     enum direction {
         DOWNWARDS,
@@ -59,9 +61,9 @@ public class Board {
 
     /**
      * yellow      red       black
-     *
-     *              HEX
-     *
+     * <p>
+     * HEX
+     * <p>
      * white       green       violet
      */
 
@@ -123,7 +125,7 @@ public class Board {
                         }
                         if (generatedTrianglesCount == 0)
                             fields[x][y].setOccupant(players[0]);
-                        if(generatedTrianglesCount == 3)
+                        if (generatedTrianglesCount == 3)
                             fields[x][y].setOccupant(players[1]);
                         break;
                     case 3:
@@ -241,7 +243,7 @@ public class Board {
         int count = 0;
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
-                if(!isNull(fields[x][y]) && !isNull(fields[x][y].getOccupant()) && !isNull(fields[x][y].getTargetOf())){
+                if (!isNull(fields[x][y]) && !isNull(fields[x][y].getOccupant()) && !isNull(fields[x][y].getTargetOf())) {
                     if (fields[x][y].getOccupant().equals(player) && fields[x][y].getTargetOf().equals(fields[x][y].getOccupant()))
                         count++;
                     if (count == triangleFieldCount())
@@ -259,7 +261,7 @@ public class Board {
         return count;
     }
 
-    public boolean areNeighbours(char  codeCharOne, int codeIntOne, char  codeCharTwo, int codeIntTwo){
+    public boolean areNeighbours(char codeCharOne, int codeIntOne, char codeCharTwo, int codeIntTwo) {
 
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
@@ -272,5 +274,43 @@ public class Board {
         return false;
     }
 
-
+    public ArrayList<Field> jumpNeighbors(Field field) {
+        ArrayList<Field> jumpNeighbors = new ArrayList<>();
+        for (Pair neighbor : field.getNeighbors()) {
+            if (!isNull(neighbor.first.getOccupant())) {
+                try {
+                    switch (neighbor.second) {
+                        case "west":
+                            if (isNull(fields[neighbor.first.getGridCoordinateX() - 2][neighbor.first.getGridCoordinateY()].getOccupant()))
+                                jumpNeighbors.add(fields[neighbor.first.getGridCoordinateX() - 2][neighbor.first.getGridCoordinateY()]);
+                            break;
+                        case "north_west":
+                            if (isNull(fields[neighbor.first.getGridCoordinateX() - 1][neighbor.first.getGridCoordinateY() - 1].getOccupant()))
+                                jumpNeighbors.add(fields[neighbor.first.getGridCoordinateX() - 1][neighbor.first.getGridCoordinateY() - 1]);
+                            break;
+                        case "north_east":
+                            if (isNull(fields[neighbor.first.getGridCoordinateX() + 1][neighbor.first.getGridCoordinateY() - 1].getOccupant()))
+                                jumpNeighbors.add(fields[neighbor.first.getGridCoordinateX() + 1][neighbor.first.getGridCoordinateY() - 1]);
+                            break;
+                        case "east":
+                            if (isNull(fields[neighbor.first.getGridCoordinateX() + 2][neighbor.first.getGridCoordinateY()].getOccupant()))
+                                jumpNeighbors.add(fields[neighbor.first.getGridCoordinateX() + 2][neighbor.first.getGridCoordinateY()]);
+                            break;
+                        case "south_east":
+                            if (isNull(fields[neighbor.first.getGridCoordinateX() + 1][neighbor.first.getGridCoordinateY() + 1].getOccupant()))
+                                jumpNeighbors.add(fields[neighbor.first.getGridCoordinateX() + 1][neighbor.first.getGridCoordinateY() + 1]);
+                            break;
+                        case "south_west":
+                            if (isNull(fields[neighbor.first.getGridCoordinateX() - 1][neighbor.first.getGridCoordinateY() + 1].getOccupant()))
+                                jumpNeighbors.add(fields[neighbor.first.getGridCoordinateX() - 1][neighbor.first.getGridCoordinateY() + 1]);
+                            break;
+                    }
+                } catch (NullPointerException e) {
+                }
+            }
+        }
+        return jumpNeighbors;
+    }
 }
+
+
