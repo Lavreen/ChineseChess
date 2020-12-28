@@ -20,6 +20,10 @@
     <option name="pathToJarWithRules" value="" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop" />
+    <option name="OPTION_SCOPE" value="public" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
