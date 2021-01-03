@@ -41,6 +41,17 @@ public class  Player implements Runnable{
     }
 
     /**
+     * Send setup to Client
+     * @param sizeOfBoard size of board
+     * @param numberOfPlayers number  of players
+     */
+    public void writeSetup(int sizeOfBoard, int numberOfPlayers){
+        if(ready) {
+            output.println("SETUP " + sizeOfBoard + " " + numberOfPlayers);       //space is very important there
+        }
+    }
+
+    /**
      * Send move command to Client
      * @param message move command
      */

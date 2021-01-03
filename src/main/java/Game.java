@@ -49,6 +49,7 @@ public class Game{
         }
 
         writeMessageToAll("New player joined! Current state: " + currentNumberOfPlayers + "/" + expectedNumberOfPlayers);
+        player.writeSetup(sizeOfBoard, expectedNumberOfPlayers);
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
             currentPlayer = playersList[0];
