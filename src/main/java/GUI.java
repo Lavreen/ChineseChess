@@ -92,8 +92,10 @@ public class GUI extends Application {
         else {
             System.out.println("Illegal move");
         }
+        moveQueue.clear();
         //sendUpdatedFieldsAndButtons();
     }
+
     private void sendUpdatedFieldsAndButtons() {
         //buttons[][]
         //fields[][]
@@ -153,15 +155,16 @@ public class GUI extends Application {
                             fieldFromY = finalY;
                         }
                         else if(moveQueue.get(moveQueue.size() - 1).getKey() == fields[finalX][finalY].getColor() && moveQueue.get(moveQueue.size() - 1).getValue() == fields[finalX][finalY].getNumber()) {}
-                        else if(moveQueue.size() == 1)
+                        else if(moveQueue.size() == 1) {
                             moveQueue.add(new FieldCode(fields[finalX][finalY].getColor(), fields[finalX][finalY].getNumber()));
                             fieldToX = finalX;
                             fieldToY = finalY;
+                        }
                         else {
-                            moveQueue.clear();
-                            moveQueue.add(new FieldCode(fields[finalX][finalY].getColor(), fields[finalX][finalY].getNumber()));
-                            fieldFromX = finalX;
-                            fieldFromY = finalY;
+//                            moveQueue.clear();
+//                            moveQueue.add(new FieldCode(fields[finalX][finalY].getColor(), fields[finalX][finalY].getNumber()));
+//                            fieldFromX = finalX;
+//                            fieldFromY = finalY;
                         }
                     }
                 });
