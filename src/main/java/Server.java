@@ -1,7 +1,8 @@
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Server class.
@@ -9,7 +10,47 @@ import java.util.concurrent.Executors;
  */
 public class Server {
     public static void main(String[] args) {
-        int numberOfPlayers;
+        if(args.length != 3){
+            System.out.println("Input: numberOfPlayers mode boardSize");
+            return;
+        }
+
+        int numberOfPlayers, mode, boardSize;
+
+        try {
+            numberOfPlayers = Integer.parseInt(args[0]);
+        }
+        catch(NumberFormatException e){
+            System.out.println("Wrong number of players");
+            return;
+        }
+
+        try {
+            mode = Integer.parseInt(args[1]);
+        }
+        catch(NumberFormatException e){
+            System.out.println("Wrong mode number");
+            return;
+        }
+
+        try {
+            boardSize = Integer.parseInt(args[2]);
+        }
+        catch(NumberFormatException e){
+            System.out.println("Wrong board size");
+            return;
+        }
+
+        ProphetFactory prophetFactory =  new ConcreteProphetFactory();
+
+        Prophet prophet;
+
+        try {
+            prophet = prophetFactory.getProphet(mode);
+        } catch (Exception e) {
+            System.out.println("Mode doesn't exist");
+            return;
+        }
 
         try {
             ServerSocket listener =  new ServerSocket(6666);
@@ -18,14 +59,8 @@ public class Server {
 
             ExecutorService pool = Executors.newFixedThreadPool(10);
 
-            numberOfPlayers = 2;    //for now always 2
-
-            //mode                    //plan for future
-
-            Prophet prophet = new Prophet();        //connected with mode
-
             while(true) {
-                Game game = new Game(numberOfPlayers, prophet);
+                Game game = new Game(numberOfPlayers, prophet, boardSize);
                 for(int i = 0; i < numberOfPlayers; i++){
                     Player player;
                     pool.execute(player = new Player(listener.accept(), game));
@@ -34,11 +69,8 @@ public class Server {
                 System.out.println("All players joined");
             }
         }
-        catch (IOException e) {
+        catch (Exception e) {
             System.out.println("Something wrong happend with server in a start phase");
         }
     }
-
-
-
 }

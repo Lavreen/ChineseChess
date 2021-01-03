@@ -1,12 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class which connects all aspect of games: rules, players and board
- * @see Prophet
+ * @see Prophet_1
  * @see Player
  * @see Board
  */
 
 public class Game{
+    private final List<Integer> numberOfPlayersList = new ArrayList<>(List.of(2, 3, 4, 6));
     private Board board;
+    private int sizeOfBoard;
     private Player[] playersList;
     private int expectedNumberOfPlayers;
     private int currentNumberOfPlayers;
@@ -15,10 +20,14 @@ public class Game{
 
     private Player currentPlayer;
 
-    public Game(int expectedNumberOfPlayers, Prophet prophet){
+    public Game(int expectedNumberOfPlayers, Prophet prophet, int sizeOfBoard) throws Exception {
+        if(!numberOfPlayersList.contains(expectedNumberOfPlayers)){
+            throw new Exception();
+        }
         currentNumberOfPlayers =  0;
         this.expectedNumberOfPlayers = expectedNumberOfPlayers;
         this.prophet = prophet;
+        this.sizeOfBoard = sizeOfBoard;
 
         playersList = new Player[expectedNumberOfPlayers];
     }
@@ -43,7 +52,7 @@ public class Game{
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
             writeMessageToAll("Game begins now!!!");
-            board = new Board(2, playersList);   // for now always size 4
+            board = new Board(sizeOfBoard, playersList);
             play= true;
         }
 
@@ -68,7 +77,7 @@ public class Game{
      * @see Player
      */
     public void playerLeft(int playerNumber){
-        writeMessageToAll("Player " + playerNumber +"left the game :(");
+        writeMessageToAll("Player " + playerNumber +" left the game :(");
         stopGame();
     }
 
