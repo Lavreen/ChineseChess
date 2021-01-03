@@ -67,6 +67,7 @@ public class Board {
         generateBoard();
     }
 
+
     // Default arms' colors used as pivot names
 
     /**

@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GUI extends Application {
 
+    private Integer locker = 0;
     private Socket socket;
     private Scanner in;
     private PrintWriter out;
@@ -30,10 +31,13 @@ public class GUI extends Application {
     private Button[][] buttons;
     private Pane layout;
 
+    private int boardSize;
+    private int numberOfPlayers;
+    private Player fakePlayers[];
+
     private Board board;
     private boolean grid[][] = board.getGrid();
     private Field fields[][] = board.getFields();
-    private Player player;
 
     private ArrayList<FieldCode> moveQueue = new ArrayList<>();
     private int fieldFromX, fieldFromY;
@@ -47,8 +51,11 @@ public class GUI extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-
+    private void boardSetup(){
+        fakePlayers = new Player[numberOfPlayers];
+        board = new Board(boardSize, fakePlayers);
     }
 
 
@@ -56,44 +63,93 @@ public class GUI extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         socketSetup();
-//        Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
+        boardSetup();
         primaryStage.setTitle("Chinese Chess");
         layout = new Pane();
         generateButtons(board);
         primaryStage.setScene(new Scene(layout, board.getX() * interfaceScale * 2, board.getY() * interfaceScale * 2));
         primaryStage.show();
 
-        while(true) {
-            if(moveQueue.size() == 2) {
-                move();
-                primaryStage.setScene(new Scene(layout, board.getX() * interfaceScale * 2, board.getY() * interfaceScale * 2));
+        String response;
+
+        try {
+            while (in.hasNextLine()) {
+                synchronized (locker) {
+                    response = in.nextLine();
+                    if (response.startsWith("MESSAGE")) {
+                        System.out.println(response.substring(8));
+                    } else if (response.startsWith("MOVE")) {       //Later move in  GUI
+
+                        int temp1 = response.indexOf(" ", 1) + 1;
+                        int temp2 = response.indexOf(" ", temp1);
+
+                        String fieldFrom = response.substring(temp1, temp2);      // second word
+                        String fieldTo = response.substring(temp2 + 1);       // third word
+
+                        System.out.println("Move from " + fieldFrom + " to " + fieldTo);
+
+                        makeMove(null, null);
+                    } else if (response.startsWith("GAME_OVER")) {
+                        System.out.println("Game over");
+                        break;
+                    }
+                }
             }
-            primaryStage.show();
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            out.println("QUIT");
         }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            socket.close();
+        }
+
+
+
+//        while(true) {
+//            if(moveQueue.size() == 2) {
+//                move();
+//                primaryStage.setScene(new Scene(layout, board.getX() * interfaceScale * 2, board.getY() * interfaceScale * 2));
+//            }
+//            primaryStage.show();
+//            try {
+//                TimeUnit.SECONDS.sleep(1);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
 
     }
 
-    private void move() {
-        FieldCode fieldFrom = moveQueue.get(0);
-        FieldCode fieldTo = moveQueue.get(1);
-        if(Prophet_2.move(fieldFrom, fieldTo, player, board)){
-            buttons[fieldFromX][fieldFromY].setStyle("-fx-background-color: brown;");
-            fields[fieldFromX][fieldFromY].setOccupant(null);
+//    private void move() {
+//        FieldCode fieldFrom = moveQueue.get(0);
+//        FieldCode fieldTo = moveQueue.get(1);
+//        if(Prophet_2.move(fieldFrom, fieldTo, player, board)){
+//            buttons[fieldFromX][fieldFromY].setStyle("-fx-background-color: brown;");
+//            fields[fieldFromX][fieldFromY].setOccupant(null);
+//
+//            buttons[fieldToX][fieldToY].setStyle("-fx-background-color: color;"); //!!!!
+//            fields[fieldToX][fieldToY].setOccupant(null); //!!!!!
+//        }
+//        else {
+//            System.out.println("Illegal move");
+//        }
+//        moveQueue.clear();
+//        //sendUpdatedFieldsAndButtons();
+//    }
 
-            buttons[fieldToX][fieldToY].setStyle("-fx-background-color: color;"); //!!!!
-            fields[fieldToX][fieldToY].setOccupant(null); //!!!!!
-        }
-        else {
-            System.out.println("Illegal move");
-        }
+    private void sendMove(){
+        out.println("MOVE " + moveQueue.get(0).getKey() + moveQueue.get(0).getValue() + " " + moveQueue.get(1).getKey() + moveQueue.get(1).getValue());
         moveQueue.clear();
-        //sendUpdatedFieldsAndButtons();
+    }
+
+    private void makeMove(FieldCode fieldFrom, FieldCode fieldTo){      //wykonaj na plaszy ruch z  pola fieldFrom na pole fieldTo
+
+
+//        buttons[fieldFromX][fieldFromY].setStyle("-fx-background-color: brown;");
+//
+//        buttons[fieldToX][fieldToY].setStyle("-fx-background-color: color;"); //!!!!
     }
 
     private void sendUpdatedFieldsAndButtons() {
@@ -159,12 +215,7 @@ public class GUI extends Application {
                             moveQueue.add(new FieldCode(fields[finalX][finalY].getColor(), fields[finalX][finalY].getNumber()));
                             fieldToX = finalX;
                             fieldToY = finalY;
-                        }
-                        else {
-//                            moveQueue.clear();
-//                            moveQueue.add(new FieldCode(fields[finalX][finalY].getColor(), fields[finalX][finalY].getNumber()));
-//                            fieldFromX = finalX;
-//                            fieldFromY = finalY;
+                            sendMove();
                         }
                     }
                 });

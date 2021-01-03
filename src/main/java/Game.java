@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Class which connects all aspect of games: rules, players and board
  * @see Prophet_1
@@ -41,7 +42,6 @@ public class Game{
         player.setNumber(currentNumberOfPlayers);
         playersList[currentNumberOfPlayers] = player;
         currentNumberOfPlayers++;
-        currentPlayer = player;         //who connect last starts the game
 
         try {
             wait(1000); //narazie brzydko
@@ -51,6 +51,7 @@ public class Game{
         writeMessageToAll("New player joined! Current state: " + currentNumberOfPlayers + "/" + expectedNumberOfPlayers);
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
+            currentPlayer = playersList[0];
             writeMessageToAll("Game begins now!!!");
             board = new Board(sizeOfBoard, playersList);
             play= true;
