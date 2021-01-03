@@ -461,6 +461,11 @@ public class Board {
         }
         return jumpNeighbors;
     }
+
+    public int getY() {return Y;}
+    public int getX() {return X;}
+    public boolean[][] getGrid() {return grid;}
+    public Field[][] getFields() {return fields;}
 }
 
 
