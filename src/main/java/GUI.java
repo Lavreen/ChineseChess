@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.Objects.isNull;
+
 public class GUI extends Application {
 
     private Integer locker = 0;
@@ -36,12 +38,12 @@ public class GUI extends Application {
     private Player fakePlayers[];
 
     private Board board;
-    private boolean grid[][] = board.getGrid();
-    private Field fields[][] = board.getFields();
+    private boolean[][] grid;
+    private Field[][] fields;
 
     private ArrayList<FieldCode> moveQueue = new ArrayList<>();
-    private int fieldFromX, fieldFromY;
-    private int fieldToX, fieldToY;
+//    private int fieldFromX, fieldFromY;
+//    private int fieldToX, fieldToY;
 
     private void socketSetup(){
         try {
@@ -56,6 +58,8 @@ public class GUI extends Application {
     private void boardSetup(){
         fakePlayers = new Player[numberOfPlayers];
         board = new Board(boardSize, fakePlayers);
+        grid = board.getGrid();
+        fields= board.getFields();
     }
 
 
@@ -144,17 +148,29 @@ public class GUI extends Application {
         moveQueue.clear();
     }
 
-    private void makeMove(FieldCode fieldFrom, FieldCode fieldTo){      //wykonaj na plaszy ruch z  pola fieldFrom na pole fieldTo
-
-
-//        buttons[fieldFromX][fieldFromY].setStyle("-fx-background-color: brown;");
-//
-//        buttons[fieldToX][fieldToY].setStyle("-fx-background-color: color;"); //!!!!
-    }
-
-    private void sendUpdatedFieldsAndButtons() {
-        //buttons[][]
-        //fields[][]
+    private void makeMove(FieldCode fieldFrom, FieldCode fieldTo) {
+        String color = new String();
+        for (int y = 0; y < board.getY(); y++) {
+            for (int x = 0; x < board.getX(); x++) {
+                if (!isNull(fields[x][y])) {
+                    if (fields[x][y].getColor() == fieldFrom.getKey() && fields[x][y].getNumber() == fieldFrom.getValue()) {
+                        color = buttons[x][y].getStyle();
+                        buttons[x][y].setStyle("-fx-background-color: brown;");
+                        break;
+                    }
+                }
+            }
+        }
+        for (int y = 0; y < board.getY(); y++) {
+            for (int x = 0; x < board.getX(); x++) {
+                if (!isNull(fields[x][y])) {
+                    if (fields[x][y].getColor() == fieldTo.getKey() && fields[x][y].getNumber() == fieldTo.getValue()) {
+                        buttons[x][y].setStyle(color);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public void generateButtons(Board board) {
@@ -207,14 +223,14 @@ public class GUI extends Application {
                     public void handle(ActionEvent actionEvent) {
                         if(moveQueue.size() == 0) {
                             moveQueue.add(new FieldCode(fields[finalX][finalY].getColor(), fields[finalX][finalY].getNumber()));
-                            fieldFromX = finalX;
-                            fieldFromY = finalY;
+//                            fieldFromX = finalX;
+//                            fieldFromY = finalY;
                         }
                         else if(moveQueue.get(moveQueue.size() - 1).getKey() == fields[finalX][finalY].getColor() && moveQueue.get(moveQueue.size() - 1).getValue() == fields[finalX][finalY].getNumber()) {}
                         else if(moveQueue.size() == 1) {
                             moveQueue.add(new FieldCode(fields[finalX][finalY].getColor(), fields[finalX][finalY].getNumber()));
-                            fieldToX = finalX;
-                            fieldToY = finalY;
+//                            fieldToX = finalX;
+//                            fieldToY = finalY;
                             sendMove();
                         }
                     }
