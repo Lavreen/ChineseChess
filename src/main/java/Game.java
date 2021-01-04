@@ -47,9 +47,9 @@ public class Game{
             wait(1000); //narazie brzydko
         } catch (InterruptedException e) {
         }
-
-        writeMessageToAll("New player joined! Current state: " + currentNumberOfPlayers + "/" + expectedNumberOfPlayers);
         player.writeSetup(sizeOfBoard, expectedNumberOfPlayers);
+        writeMessageToAll("New player joined! Current state: " + currentNumberOfPlayers + "/" + expectedNumberOfPlayers);
+
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
             currentPlayer = playersList[0];

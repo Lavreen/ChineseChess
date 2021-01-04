@@ -86,7 +86,6 @@ public class  Player implements Runnable{
     private void setup() throws IOException {
         input = new Scanner(socket.getInputStream());
         output = new PrintWriter(socket.getOutputStream(), true);
-        output.println("MESSAGE Welcome Player " + number);
     }
 
     /**

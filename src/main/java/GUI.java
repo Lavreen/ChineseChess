@@ -57,6 +57,7 @@ public class GUI extends Application {
     private void boardSetup(){
         String response;
         response = in.nextLine();
+        System.out.println(response);
         if (response.startsWith("SETUP")) {
             int temp1 = response.indexOf(" ", 1) + 1;
             int temp2 = response.indexOf(" ", temp1);
@@ -76,8 +77,8 @@ public class GUI extends Application {
             System.out.println("Critical error");
         }
 
-        fakePlayers = new Player[2];
-        board = new Board(6, fakePlayers);
+        fakePlayers = new Player[numberOfPlayers];
+        board = new Board(boardSize, fakePlayers);
         grid = board.getGrid();
         fields= board.getFields();
     }
@@ -94,8 +95,51 @@ public class GUI extends Application {
         primaryStage.setScene(new Scene(layout, board.getX() * interfaceScale * 2, board.getY() * interfaceScale * 2));
         primaryStage.show();
 
-        String response;
         System.out.println("HAHAHAHAHAHAHHAHAHAH");
+
+        Thread thread = new Thread(() -> {
+            String response;
+            try {
+            while (in.hasNextLine()) {
+                    response = in.nextLine();
+                    if (response.startsWith("MESSAGE")) {
+                        System.out.println(response.substring(8));
+                    } else if (response.startsWith("MOVE")) {       //Later move in  GUI
+
+                        int temp1 = response.indexOf(" ", 1) + 1;
+                        int temp2 = response.indexOf(" ", temp1);
+
+
+                        String fieldFromS = response.substring(temp1, temp2);      // second word
+                        String fieldToS = response.substring(temp2 + 1);       // third word
+
+                        try {
+                            FieldCode fieldFrom = new FieldCode(fieldFromS.charAt(0), Integer.parseInt(fieldFromS.substring(1)));
+                            FieldCode fieldTo = new FieldCode(fieldToS.charAt(0), Integer.parseInt(fieldToS.substring(1)));
+                            makeMove(fieldFrom, fieldTo);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Wrong field codes: " + fieldFromS + " " + fieldToS);
+                        }
+
+                    } else if (response.startsWith("GAME_OVER")) {
+                        System.out.println("Game over");
+                        break;
+                }
+            }
+            out.println("QUIT");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
 
 //        try {
 //            while (in.hasNextLine()) {
@@ -209,7 +253,7 @@ public class GUI extends Application {
                 }
                 else if(y % 2 == 1 && grid[x][y]) {
                     buttons[x][y] = new Button();
-                    buttons[x][y].setLayoutX(x * interfaceScale + (interfaceScale/2));
+                    buttons[x][y].setLayoutX(x * interfaceScale - (interfaceScale/2));
                     buttons[x][y].setLayoutY(y * interfaceScale);
                 }
                 else {
