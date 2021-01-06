@@ -5,8 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -41,8 +41,6 @@ public class GUI extends Application {
     private Field[][] fields;
 
     private ArrayList<FieldCode> moveQueue = new ArrayList<>();
-//    private int fieldFromX, fieldFromY;
-//    private int fieldToX, fieldToY;
 
     private void socketSetup(){
         try {
@@ -89,13 +87,35 @@ public class GUI extends Application {
 
         socketSetup();
         boardSetup();
+        int windowSizeX = interfaceScale * 2 + board.getX() * interfaceScale + board.getX() * (interfaceScale/3 + 1) + (interfaceScale/2);
+        int windowSizeY = interfaceScale * 2 + board.getY() * interfaceScale + board.getY() * (interfaceScale/3 + 1);
         primaryStage.setTitle("Chinese Chess");
         layout = new Pane();
-        generateButtons(board);
-        primaryStage.setScene(new Scene(layout, board.getX() * interfaceScale * 2, board.getY() * interfaceScale * 2));
-        primaryStage.show();
 
-        System.out.println("HAHAHAHAHAHAHHAHAHAH");
+        BackgroundImage backgroundImage = new BackgroundImage(new Image("background.jpeg", windowSizeX, windowSizeY, false, false), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        layout.setBackground(new Background(backgroundImage));
+
+        generateButtons(board);
+
+//        Button button1 = new Button();
+//        button1.setLayoutX(0);
+//        button1.setLayoutY(0);
+//        button1.setShape(new Circle(100));
+//        button1.setMinSize(100, 100);
+//        button1.setMaxSize(100, 100);
+//        Button button2 = new Button();
+//        button2.setLayoutX(50);
+//        button2.setLayoutY(50);
+//        button2.setShape(new Circle(100));
+//        button2.setMinSize(100, 100);
+//        button2.setMaxSize(100, 100);
+//        layout.getChildren().add(button1);
+//        layout.getChildren().add(button2);
+//        primaryStage.setScene(new Scene(layout, windowSizeX, windowSizeY));
+//        primaryStage.show();
+
+       // System.out.println("HAHAHAHAHAHAHHAHAHAH");
 
         Thread thread = new Thread(() -> {
             String response;
@@ -140,77 +160,7 @@ public class GUI extends Application {
             }
         });
         thread.start();
-
-//        try {
-//            while (in.hasNextLine()) {
-//                    response = in.nextLine();
-//                    if (response.startsWith("MESSAGE")) {
-//                        System.out.println(response.substring(8));
-//                    } else if (response.startsWith("MOVE")) {       //Later move in  GUI
-//
-//                        int temp1 = response.indexOf(" ", 1) + 1;
-//                        int temp2 = response.indexOf(" ", temp1);
-//
-//
-//                        String fieldFromS = response.substring(temp1, temp2);      // second word
-//                        String fieldToS = response.substring(temp2 + 1);       // third word
-//
-//                        try {
-//                            FieldCode fieldFrom = new FieldCode(fieldFromS.charAt(0), Integer.parseInt(fieldFromS.substring(1)));
-//                            FieldCode fieldTo = new FieldCode(fieldToS.charAt(0), Integer.parseInt(fieldToS.substring(1)));
-//                            makeMove(fieldFrom, fieldTo);
-//                        } catch (NumberFormatException e) {
-//                            System.out.println("Wrong field codes: " + fieldFromS + " " + fieldToS);
-//                        }
-//
-//                    } else if (response.startsWith("GAME_OVER")) {
-//                        System.out.println("Game over");
-//                        break;
-//                }
-//            }
-//            out.println("QUIT");
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        finally {
-//            socket.close();
-//        }
-
-
-
-//        while(true) {
-//            if(moveQueue.size() == 2) {
-//                move();
-//                primaryStage.setScene(new Scene(layout, board.getX() * interfaceScale * 2, board.getY() * interfaceScale * 2));
-//            }
-//            primaryStage.show();
-//            try {
-//                TimeUnit.SECONDS.sleep(1);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-
     }
-
-//    private void move() {
-//        FieldCode fieldFrom = moveQueue.get(0);
-//        FieldCode fieldTo = moveQueue.get(1);
-//        if(Prophet_2.move(fieldFrom, fieldTo, player, board)){
-//            buttons[fieldFromX][fieldFromY].setStyle("-fx-background-color: brown;");
-//            fields[fieldFromX][fieldFromY].setOccupant(null);
-//
-//            buttons[fieldToX][fieldToY].setStyle("-fx-background-color: color;"); //!!!!
-//            fields[fieldToX][fieldToY].setOccupant(null); //!!!!!
-//        }
-//        else {
-//            System.out.println("Illegal move");
-//        }
-//        moveQueue.clear();
-//        //sendUpdatedFieldsAndButtons();
-//    }
 
     private void sendMove(){
         out.println("MOVE " + moveQueue.get(0).getKey() + moveQueue.get(0).getValue() + " " + moveQueue.get(1).getKey() + moveQueue.get(1).getValue());
@@ -248,20 +198,22 @@ public class GUI extends Application {
             for (int x = 0; x < board.getX(); x++) {
                 if(y % 2 == 0 && grid[x][y]){
                     buttons[x][y] = new Button();
-                    buttons[x][y].setLayoutX(x * interfaceScale);
-                    buttons[x][y].setLayoutY(y * interfaceScale);
+                    buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/3 + 1));
+                    buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale/3 + 1));
                 }
                 else if(y % 2 == 1 && grid[x][y]) {
                     buttons[x][y] = new Button();
-                    buttons[x][y].setLayoutX(x * interfaceScale - (interfaceScale/2));
-                    buttons[x][y].setLayoutY(y * interfaceScale);
+                    buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/3 + 1) + (interfaceScale/2));
+                    buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale/3 + 1));
+//                    buttons[x][y].setLayoutX(0);
+//                    buttons[x][y].setLayoutY(0);
                 }
                 else {
                     continue;
                 }
-                buttons[x][y].setShape(new Circle(interfaceScale/2));
-                buttons[x][y].setMinSize(interfaceScale/2,interfaceScale/2);
-                buttons[x][y].setMaxSize(interfaceScale/2,interfaceScale/2);
+                buttons[x][y].setShape(new Circle(interfaceScale));
+                buttons[x][y].setMinSize(interfaceScale,interfaceScale);
+                buttons[x][y].setMaxSize(interfaceScale,interfaceScale);
                 switch(fields[x][y].getColor()) {
                     case 'R':
                         buttons[x][y].setStyle("-fx-background-color: red;");
@@ -292,14 +244,10 @@ public class GUI extends Application {
                     public void handle(ActionEvent actionEvent) {
                         if(moveQueue.size() == 0) {
                             moveQueue.add(new FieldCode(fields[finalX][finalY].getColor(), fields[finalX][finalY].getNumber()));
-//                            fieldFromX = finalX;
-//                            fieldFromY = finalY;
                         }
                         else if(moveQueue.get(moveQueue.size() - 1).getKey() == fields[finalX][finalY].getColor() && moveQueue.get(moveQueue.size() - 1).getValue() == fields[finalX][finalY].getNumber()) {}
                         else if(moveQueue.size() == 1) {
                             moveQueue.add(new FieldCode(fields[finalX][finalY].getColor(), fields[finalX][finalY].getNumber()));
-//                            fieldToX = finalX;
-//                            fieldToY = finalY;
                             sendMove();
                         }
                     }

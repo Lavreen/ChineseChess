@@ -117,6 +117,7 @@
                 <configuration>
 <!--                    <mainClass>org.example.client.Client</mainClass>-->
                     <mainClass>GUI</mainClass>
+<!--                    <mainClass>Server</mainClass>-->
                 </configuration>
             </plugin>
         </plugins>
