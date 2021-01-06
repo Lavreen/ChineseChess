@@ -12,11 +12,11 @@ import java.util.List;
 public class Game{
     private final List<Integer> numberOfPlayersList = new ArrayList<>(List.of(2, 3, 4, 6));
     private Board board;
-    private int sizeOfBoard;
+    private final int sizeOfBoard;
     private Player[] playersList;
-    private int expectedNumberOfPlayers;
+    private final int expectedNumberOfPlayers;
     private int currentNumberOfPlayers;
-    private Prophet prophet;
+    private final Prophet prophet;
     private boolean play = false;
 
     private Player currentPlayer;
@@ -44,7 +44,7 @@ public class Game{
         currentNumberOfPlayers++;
 
         try {
-            wait(1000); //narazie brzydko
+            wait(1000); //na razie brzydko
         } catch (InterruptedException e) {
         }
         player.writeSetup(sizeOfBoard, expectedNumberOfPlayers);

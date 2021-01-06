@@ -3,8 +3,8 @@
  */
 
 public class FieldCode {
-    private char key;
-    private int value;
+    private final char key;
+    private final int value;
 
     public FieldCode(char key, int  value){
         this.key =  key;

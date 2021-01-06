@@ -69,7 +69,7 @@ public class Server {
             }
         }
         catch (Exception e) {
-            System.out.println("Something wrong happend with server in a start phase");
+            System.out.println("Something wrong happened with server in a start phase");
         }
     }
 }

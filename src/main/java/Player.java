@@ -9,10 +9,10 @@ import java.util.Scanner;
  */
 
 public class  Player implements Runnable{
-    private Socket socket;
+    private final Socket socket;
     private Scanner input;
     private PrintWriter output;
-    private Game game;
+    private final Game game;
     private boolean ready = false;
 
     private int number = -1;
