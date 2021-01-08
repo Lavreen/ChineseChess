@@ -1,8 +1,6 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -10,15 +8,11 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.sql.BatchUpdateException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.Objects.isNull;
 
@@ -28,7 +22,8 @@ public class GUI extends Application {
     private Scanner in;
     private PrintWriter out;
 
-    private int interfaceScale = 16;
+    private int spaceLength = 40;
+    private int buttonSize = 75;
 
     private Button[][] buttons;
     private Pane layout;
@@ -89,8 +84,8 @@ public class GUI extends Application {
 
         socketSetup();
         boardSetup();
-        int windowSizeX = interfaceScale * 2 + board.getX() * interfaceScale + board.getX() * (interfaceScale/3 + 1) + (interfaceScale/2);
-        int windowSizeY = interfaceScale * 2 + board.getY() * interfaceScale + board.getY() * (interfaceScale/3 + 1);
+        int windowSizeX = spaceLength * 2 + board.getX() * spaceLength + board.getX() * (spaceLength /3 + 1) + (spaceLength /2);
+        int windowSizeY = spaceLength * 2 + board.getY() * spaceLength + board.getY() * (spaceLength /3 + 1);
         primaryStage.setTitle("Chinese Chess");
         layout = new Pane();
 
@@ -200,24 +195,20 @@ public class GUI extends Application {
             for (int x = 0; x < board.getX(); x++) {
                 if(y % 2 == 0 && grid[x][y]){
                     buttons[x][y] = new Button();
-                    buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/2 + 1));
-                    buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale + 1));
+                    buttons[x][y].setLayoutX(x * spaceLength + spaceLength);
+                    buttons[x][y].setLayoutY(Math.sqrt(3) * y  * spaceLength + spaceLength);
                 }
                 else if(y % 2 == 1 && grid[x][y]) {
                     buttons[x][y] = new Button();
-                    buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/2 + 1));
-                    buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale + 1));
-                   // buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/3 + 1) + (interfaceScale/2));
-                    //buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale/3 + 1));
-//                    buttons[x][y].setLayoutX(0);
-//                    buttons[x][y].setLayoutY(0);
+                    buttons[x][y].setLayoutX(x * spaceLength + spaceLength);
+                    buttons[x][y].setLayoutY(Math.sqrt(3) * y * spaceLength + spaceLength);
                 }
                 else {
                     continue;
                 }
-                buttons[x][y].setShape(new Circle(interfaceScale));
-                buttons[x][y].setMinSize(interfaceScale,interfaceScale);
-                buttons[x][y].setMaxSize(interfaceScale,interfaceScale);
+                buttons[x][y].setShape(new Circle(buttonSize));
+                buttons[x][y].setMinSize(buttonSize, buttonSize);
+                buttons[x][y].setMaxSize(buttonSize, buttonSize);
                 switch(fields[x][y].getColor()) {
                     case 'R':
                         buttons[x][y].setStyle("-fx-background-color: red;");
