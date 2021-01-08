@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.BatchUpdateException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +45,8 @@ public class GUI extends Application {
 
     private void socketSetup(){
         try {
-            socket = new Socket("127.0.0.1", 6666);
+            Parameters parameters = getParameters();
+            socket = new Socket(parameters.getRaw().get(0), 6666);
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
         } catch (IOException e) {
@@ -112,8 +114,8 @@ public class GUI extends Application {
 //        button2.setMaxSize(100, 100);
 //        layout.getChildren().add(button1);
 //        layout.getChildren().add(button2);
-//        primaryStage.setScene(new Scene(layout, windowSizeX, windowSizeY));
-//        primaryStage.show();
+        primaryStage.setScene(new Scene(layout, windowSizeX, windowSizeY));
+        primaryStage.show();
 
        // System.out.println("HAHAHAHAHAHAHHAHAHAH");
 
@@ -198,13 +200,15 @@ public class GUI extends Application {
             for (int x = 0; x < board.getX(); x++) {
                 if(y % 2 == 0 && grid[x][y]){
                     buttons[x][y] = new Button();
-                    buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/3 + 1));
-                    buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale/3 + 1));
+                    buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/2 + 1));
+                    buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale + 1));
                 }
                 else if(y % 2 == 1 && grid[x][y]) {
                     buttons[x][y] = new Button();
-                    buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/3 + 1) + (interfaceScale/2));
-                    buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale/3 + 1));
+                    buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/2 + 1));
+                    buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale + 1));
+                   // buttons[x][y].setLayoutX(interfaceScale + x * interfaceScale + x * (interfaceScale/3 + 1) + (interfaceScale/2));
+                    //buttons[x][y].setLayoutY(interfaceScale + y * interfaceScale + y * (interfaceScale/3 + 1));
 //                    buttons[x][y].setLayoutX(0);
 //                    buttons[x][y].setLayoutY(0);
                 }
@@ -258,6 +262,10 @@ public class GUI extends Application {
     }
 
     public static void main(String[] args) {
+        if(args.length != 1){
+            System.out.println("Input: hostname");
+            return;
+        }
         Application.launch(args);
     }
 }
