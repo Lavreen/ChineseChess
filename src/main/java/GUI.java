@@ -81,7 +81,6 @@ public class GUI extends Application {
     }
 
     private void  labelSetup(){
-
         labelColour = new Label("Your colour is ");
         labelColour.setMaxWidth(windowSize);
         labelColour.setMinWidth(windowSize);
@@ -106,31 +105,31 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage){
-
         socketSetup();
         boardSetup();
+
         spaceLength = ((windowSize)/ (2 + 2 * Math.sqrt(3) * boardSize)) / 2;
         buttonSize = (windowSize)/ (2 + 2 * Math.sqrt(3) * boardSize);
 
+        layout = new Pane();
+
         int windowSizeX = windowSize;
         int windowSizeY = windowSize;
-        primaryStage.setTitle("Chinese Chess");
+        BackgroundImage backgroundImage = new BackgroundImage(new Image("background.jpeg", windowSizeX, windowSizeY, false, false), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
 
+        layout.setBackground(new Background(backgroundImage));
+
+        labelSetup();
+
+        generateButtons(board);
+
+        primaryStage.setTitle("Chinese Chess");
+        primaryStage.setScene(new Scene(layout, windowSizeX, windowSizeY));
         primaryStage.setOnCloseRequest(t -> {
             Platform.exit();
             System.exit(0);
         });
-        layout = new Pane();
-
-        labelSetup();
-
-        BackgroundImage backgroundImage = new BackgroundImage(new Image("background.jpeg", windowSizeX, windowSizeY, false, false), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        layout.setBackground(new Background(backgroundImage));
-
-        generateButtons(board);
-
-        primaryStage.setScene(new Scene(layout, windowSizeX, windowSizeY));
 
         primaryStage.show();
 
