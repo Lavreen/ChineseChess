@@ -70,7 +70,7 @@ public class Game{
      */
     private void isWinner(Player player){
         if(prophet.isWinner(player, board)) {
-            writeMessageToAll("Winner is Player " + player.getNumber());
+            writeMessageToAll("Player " + player.getNumber() + " has won!");
             stopGame();
         }
     }
@@ -81,7 +81,7 @@ public class Game{
      * @see Player
      */
     public void playerLeft(int playerNumber){
-        writeMessageToAll("Player " + playerNumber +" left the game :(");
+        writeMessageToAll("Player " + playerNumber + " left the game :(");
         playersList[playerNumber] = null;
         stopGame();
     }
@@ -90,7 +90,7 @@ public class Game{
      * Method which switch currentPlayer to next player from list
      */
     private void nextPlayer(){
-        currentPlayer.writeMessage("Wait for your opponents moves");
+        currentPlayer.writeMessage("Wait for your opponents' moves");
         currentPlayer  = playersList[(currentPlayer.getNumber() + 1) % expectedNumberOfPlayers];
         currentPlayer.writeMessage("Your turn");
     }
@@ -121,7 +121,7 @@ public class Game{
             }
         }
         else {
-            throw new MoveException("Game not stated!");
+            throw new MoveException("The game has not started!");
         }
     }
 

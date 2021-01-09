@@ -246,22 +246,40 @@ public class GUI extends Application {
                 buttons[x][y].setMaxSize(buttonSize, buttonSize);
                 switch(fields[x][y].getColor()) {
                     case 'R':
-                        buttons[x][y].setStyle("-fx-background-color: red;");
+                        if(numberOfPlayers != 4)
+                            buttons[x][y].setStyle("-fx-background-color: red;");
+                        else
+                            buttons[x][y].setStyle("-fx-background-color: brown;");
                         break;
                     case 'B':
-                        buttons[x][y].setStyle("-fx-background-color: blue;");
+                        if(numberOfPlayers == 4 || numberOfPlayers == 6)
+                            buttons[x][y].setStyle("-fx-background-color: blue;");
+                        else
+                            buttons[x][y].setStyle("-fx-background-color: brown;");
                         break;
                     case 'V':
-                        buttons[x][y].setStyle("-fx-background-color: violet;");
+                        if(numberOfPlayers != 2)
+                            buttons[x][y].setStyle("-fx-background-color: violet;");
+                        else
+                            buttons[x][y].setStyle("-fx-background-color: brown;");
                         break;
                     case 'G':
-                        buttons[x][y].setStyle("-fx-background-color: green;");
+                        if(numberOfPlayers == 2 || numberOfPlayers == 6)
+                            buttons[x][y].setStyle("-fx-background-color: green;");
+                        else
+                            buttons[x][y].setStyle("-fx-background-color: brown;");
                         break;
                     case 'W':
-                        buttons[x][y].setStyle("-fx-background-color: white;");
+                        if(numberOfPlayers != 2)
+                            buttons[x][y].setStyle("-fx-background-color: white;");
+                        else
+                            buttons[x][y].setStyle("-fx-background-color: brown;");
                         break;
                     case 'Y':
-                        buttons[x][y].setStyle("-fx-background-color: yellow;");
+                        if(numberOfPlayers == 4 || numberOfPlayers == 6)
+                            buttons[x][y].setStyle("-fx-background-color: yellow;");
+                        else
+                            buttons[x][y].setStyle("-fx-background-color: brown;");
                         break;
                     case 'H':
                         buttons[x][y].setStyle("-fx-background-color: brown;");
