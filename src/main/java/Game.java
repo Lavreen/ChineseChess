@@ -44,8 +44,9 @@ public class Game{
         currentNumberOfPlayers++;
 
         try {
-            wait(1000); //na razie brzydko
+            wait(1000);
         } catch (InterruptedException e) {
+            e.getLocalizedMessage();
         }
         player.writeSetup(sizeOfBoard, expectedNumberOfPlayers);
         writeMessageToAll("New player joined! Current state: " + currentNumberOfPlayers + "/" + expectedNumberOfPlayers);
@@ -56,6 +57,7 @@ public class Game{
             writeMessageToAll("Game begins now!!!");
             board = new Board(sizeOfBoard, playersList);
             play= true;
+            currentPlayer.writeMessage("Your turn");
         }
 
     }
@@ -80,6 +82,7 @@ public class Game{
      */
     public void playerLeft(int playerNumber){
         writeMessageToAll("Player " + playerNumber +" left the game :(");
+        playersList[playerNumber] = null;
         stopGame();
     }
 
@@ -87,7 +90,9 @@ public class Game{
      * Method which switch currentPlayer to next player from list
      */
     private void nextPlayer(){
+        currentPlayer.writeMessage("Wait for your opponents moves");
         currentPlayer  = playersList[(currentPlayer.getNumber() + 1) % expectedNumberOfPlayers];
+        currentPlayer.writeMessage("Your turn");
     }
 
     /**

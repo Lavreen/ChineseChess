@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.awt.*;
 import java.io.IOException;
@@ -99,6 +100,14 @@ public class GUI extends Application {
         int windowSizeY = windowSize;
         primaryStage.setTitle("Chinese Chess");
 
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+
         layout = new Pane();
 
         label = new Label("HEJO!");
@@ -169,6 +178,7 @@ public class GUI extends Application {
                         }
 
                     } else if (response.startsWith("GAME_OVER")) {
+                        //System.out.println("Game over");
                         break;
                 }
             }
