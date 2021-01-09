@@ -51,6 +51,10 @@ public class  Player implements Runnable{
         }
     }
 
+    public void writeColour(String colour){
+        output.println("COLOUR "  + colour);
+    }
+
     /**
      * Send move command to Client
      * @param message move command

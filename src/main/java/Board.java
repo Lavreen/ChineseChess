@@ -20,6 +20,7 @@ public class Board {
     private final boolean[][] grid; // "true" - field exists
     private final Field[][] fields;
     private final Player[] players;
+    private char[] playersColours;
 
     private static int redOriginX, redOriginY;  // coordinates of the vertex from which the triangle generation starts
     private static int blackOriginX, blackOriginY;
@@ -38,7 +39,9 @@ public class Board {
      */
     public Board(int size, Player[] players) {
         this.players = players;
+        playersColours = new char[players.length];
         SIZE = size;
+
         if (SIZE < 1)
             SIZE = 1;
         X = 7 + 6 * (SIZE - 1);
@@ -146,10 +149,14 @@ public class Board {
                             targetOf = (generatedTrianglesCount + 1) % 2;
                             fields[x][y].setTargetOf(players[targetOf]);
                         }
-                        if (generatedTrianglesCount == 0)
+                        if (generatedTrianglesCount == 0) {
                             fields[x][y].setOccupant(players[0]);
-                        if (generatedTrianglesCount == 3)
+                            playersColours[0] = color;
+                        }
+                        if (generatedTrianglesCount == 3) {
                             fields[x][y].setOccupant(players[1]);
+                            playersColours[1] = color;
+                        }
                         break;
                     case 3:
                         if (generatedTrianglesCount % 2 == 1) {
@@ -162,10 +169,20 @@ public class Board {
                             fields[x][y].setTargetOf(players[targetOf]);
                         }
                         if (generatedTrianglesCount % 2 == 0) {
+
                             switch (generatedTrianglesCount) {
-                                case 0 -> fields[x][y].setOccupant(players[0]);
-                                case 2 -> fields[x][y].setOccupant(players[1]);
-                                case 4 -> fields[x][y].setOccupant(players[2]);
+                                case 0 :
+                                    fields[x][y].setOccupant(players[0]);
+                                    playersColours[0] = color;
+                                    break;
+                                case 2 :
+                                    fields[x][y].setOccupant(players[1]);
+                                    playersColours[1] = color;
+                                    break;
+                                case 4 :
+                                    fields[x][y].setOccupant(players[2]);
+                                    playersColours[2] = color;
+                                    break;
                             }
                         }
                         break;
@@ -175,18 +192,22 @@ public class Board {
                                 case 1 -> {
                                     targetOf = 2;
                                     fields[x][y].setOccupant(players[0]);
+                                    playersColours[0] = color;
                                 }
                                 case 2 -> {
                                     targetOf = 3;
                                     fields[x][y].setOccupant(players[1]);
+                                    playersColours[1] = color;
                                 }
                                 case 4 -> {
                                     targetOf = 0;
                                     fields[x][y].setOccupant(players[2]);
+                                    playersColours[2] = color;
                                 }
                                 case 5 -> {
                                     targetOf = 1;
                                     fields[x][y].setOccupant(players[3]);
+                                    playersColours[3] = color;
                                 }
                                 default -> targetOf = 1337;
                             }
@@ -196,6 +217,7 @@ public class Board {
                     case 6:
                         fields[x][y].setTargetOf(players[(generatedTrianglesCount + 3) % 6]);
                         fields[x][y].setOccupant(players[generatedTrianglesCount]);
+                        playersColours[generatedTrianglesCount] = color;
                         break;
                 }
                 generatedFieldNumber++;
@@ -465,6 +487,10 @@ public class Board {
     public int getX() {return X;}
     public boolean[][] getGrid() {return grid;}
     public Field[][] getFields() {return fields;}
+    public char[] getPlayersColours(){
+        return playersColours;
+    }
+
 }
 
 

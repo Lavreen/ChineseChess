@@ -14,6 +14,7 @@ public class Game{
     private Board board;
     private final int sizeOfBoard;
     private Player[] playersList;
+    private char[] playersColours;
     private final int expectedNumberOfPlayers;
     private int currentNumberOfPlayers;
     private final Prophet prophet;
@@ -58,6 +59,8 @@ public class Game{
             board = new Board(sizeOfBoard, playersList);
             play= true;
             currentPlayer.writeMessage("Your turn");
+            playersColours = board.getPlayersColours();
+            setColours();
         }
 
     }
@@ -134,6 +137,16 @@ public class Game{
         for(Player player: playersList){
             if(player != null){
                 player.writeMessage(message);
+            }
+        }
+    }
+
+    private void setColours(){
+        int i = 0;
+        for(Player player: playersList){
+            if(player != null){
+                player.writeColour(playersColours[i] + " ");
+                i++;
             }
         }
     }
