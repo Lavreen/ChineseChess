@@ -55,7 +55,7 @@ public class Game{
 
         if(currentNumberOfPlayers == expectedNumberOfPlayers){
             currentPlayer = playersList[0];
-            writeMessageToAll("Game begins now!!!");
+            writeMessageToAll("Game begins now!");
             board = new Board(sizeOfBoard, playersList);
             play= true;
             currentPlayer.writeMessage("Your turn");
@@ -145,7 +145,14 @@ public class Game{
         int i = 0;
         for(Player player: playersList){
             if(player != null){
-                player.writeColour(playersColours[i] + " ");
+                switch (playersColours[i]){
+                    case 'R' -> player.writeColour("Red");
+                    case 'B' -> player.writeColour("Blue");
+                    case 'V' -> player.writeColour("Violet");
+                    case 'G' -> player.writeColour("Green");
+                    case 'W' -> player.writeColour("White");
+                    case 'Y' -> player.writeColour("Yellow");
+                }
                 i++;
             }
         }

@@ -81,7 +81,7 @@ public class GUI extends Application {
     }
 
     private void  labelSetup(){
-        labelColour = new Label("Your colour is ");
+        labelColour = new Label("You are playing: ");
         labelColour.setMaxWidth(windowSize);
         labelColour.setMinWidth(windowSize);
         labelColour.setMaxHeight(20);
@@ -161,7 +161,7 @@ public class GUI extends Application {
                     }
                     else if (response.startsWith("COLOUR")){
                         String finalResponse2 = response;
-                        Platform.runLater(() -> labelColour.setText("Your colour is " + finalResponse2.substring(7)));
+                        Platform.runLater(() -> labelColour.setText("You are playing: " + finalResponse2.substring(7)));
 
                     } else if (response.startsWith("GAME_OVER")) {
                         //System.out.println("Game over");
