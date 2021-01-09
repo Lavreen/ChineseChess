@@ -402,8 +402,6 @@ public class Board {
         while(!stack.empty()){
             Field temp = stack.pop();
 
-            System.out.println(temp.getColor() +" " + temp.getNumber());
-
             if(temp.equals(fieldTwo)){
                 return true;
             }

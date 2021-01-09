@@ -1,13 +1,16 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -22,11 +25,13 @@ public class GUI extends Application {
     private Scanner in;
     private PrintWriter out;
 
-    private int spaceLength = 40;
-    private int buttonSize = 75;
+    private int windowSize = 1000;
+    private double spaceLength;
+    private double buttonSize;
 
     private Button[][] buttons;
     private Pane layout;
+    private Label label;
 
     private int boardSize;
     private int numberOfPlayers;
@@ -52,7 +57,6 @@ public class GUI extends Application {
     private void boardSetup(){
         String response;
         response = in.nextLine();
-        System.out.println(response);
         if (response.startsWith("SETUP")) {
             int temp1 = response.indexOf(" ", 1) + 1;
             int temp2 = response.indexOf(" ", temp1);
@@ -84,10 +88,27 @@ public class GUI extends Application {
 
         socketSetup();
         boardSetup();
-        int windowSizeX = spaceLength * 2 + board.getX() * spaceLength + board.getX() * (spaceLength /3 + 1) + (spaceLength /2);
-        int windowSizeY = spaceLength * 2 + board.getY() * spaceLength + board.getY() * (spaceLength /3 + 1);
+        spaceLength = ((windowSize)/ (2 + 2 * Math.sqrt(3) * boardSize)) / 2;
+        buttonSize = (windowSize)/ (2 + 2 * Math.sqrt(3) * boardSize);
+
+//        spaceLength *= (1 + 3 * boardSize) / (1 + 2 * boardSize + 2 * Math.sqrt(3) * boardSize);
+//        buttonSize *= (1 + 3 * boardSize) / (1 + 2 * boardSize + 2 * Math.sqrt(3) * boardSize);
+
+
+        int windowSizeX = windowSize;
+        int windowSizeY = windowSize;
         primaryStage.setTitle("Chinese Chess");
+
         layout = new Pane();
+
+        label = new Label("HEJO!");
+        label.setStyle("-fx-background-color: white;");
+        label.setMaxWidth(windowSize);
+        label.setMinWidth(windowSize);
+        label.setLayoutX(0);
+        label.setLayoutY(0);
+
+        layout.getChildren().add(label);
 
         BackgroundImage backgroundImage = new BackgroundImage(new Image("background.jpeg", windowSizeX, windowSizeY, false, false), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
@@ -110,9 +131,11 @@ public class GUI extends Application {
 //        layout.getChildren().add(button1);
 //        layout.getChildren().add(button2);
         primaryStage.setScene(new Scene(layout, windowSizeX, windowSizeY));
+
+
+
         primaryStage.show();
 
-       // System.out.println("HAHAHAHAHAHAHHAHAHAH");
 
         Thread thread = new Thread(() -> {
             String response;
@@ -120,7 +143,14 @@ public class GUI extends Application {
             while (in.hasNextLine()) {
                     response = in.nextLine();
                     if (response.startsWith("MESSAGE")) {
-                        System.out.println(response.substring(8));
+                        String finalResponse = response;
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                label.setText(finalResponse.substring(8));
+                            }
+                        });
+                        Thread.sleep(1000);
                     } else if (response.startsWith("MOVE")) {       //Later move in  GUI
 
                         int temp1 = response.indexOf(" ", 1) + 1;
@@ -139,7 +169,6 @@ public class GUI extends Application {
                         }
 
                     } else if (response.startsWith("GAME_OVER")) {
-                        System.out.println("Game over");
                         break;
                 }
             }
@@ -154,6 +183,7 @@ public class GUI extends Application {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                //Platform.exit(); //Close application
             }
         });
         thread.start();
@@ -193,15 +223,10 @@ public class GUI extends Application {
         buttons = new Button[board.getX()][board.getY()];
         for (int y = 0; y < board.getY(); y++) {
             for (int x = 0; x < board.getX(); x++) {
-                if(y % 2 == 0 && grid[x][y]){
+                if(grid[x][y]){
                     buttons[x][y] = new Button();
-                    buttons[x][y].setLayoutX(x * spaceLength + spaceLength);
-                    buttons[x][y].setLayoutY(Math.sqrt(3) * y  * spaceLength + spaceLength);
-                }
-                else if(y % 2 == 1 && grid[x][y]) {
-                    buttons[x][y] = new Button();
-                    buttons[x][y].setLayoutX(x * spaceLength + spaceLength);
-                    buttons[x][y].setLayoutY(Math.sqrt(3) * y * spaceLength + spaceLength);
+                    buttons[x][y].setLayoutX(x * spaceLength + (windowSize - (3 * boardSize + 1) * buttonSize) / 2);
+                    buttons[x][y].setLayoutY(Math.sqrt(3) * y  * spaceLength + buttonSize / 2);
                 }
                 else {
                     continue;
