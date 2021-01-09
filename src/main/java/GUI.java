@@ -39,7 +39,7 @@ public class GUI extends Application {
     private boolean[][] grid;
     private Field[][] fields;
 
-    private ArrayList<FieldCode> moveQueue = new ArrayList<>();
+    private final ArrayList<FieldCode> moveQueue = new ArrayList<>();
 
     private void socketSetup(){
         try {
