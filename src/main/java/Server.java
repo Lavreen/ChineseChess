@@ -64,7 +64,7 @@ public class Server {
             }
         }
         catch (Exception e) {
-            throw new Exception("Something wrong happened with server in a start phase");
+            throw e;
         }
     }
 }

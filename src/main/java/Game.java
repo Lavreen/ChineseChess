@@ -24,7 +24,7 @@ public class Game{
 
     public Game(int expectedNumberOfPlayers, Prophet prophet, int sizeOfBoard) throws Exception {
         if(!numberOfPlayersList.contains(expectedNumberOfPlayers)){
-            throw new Exception();
+            throw new Exception("Wrong number of players");
         }
         currentNumberOfPlayers =  0;
         this.expectedNumberOfPlayers = expectedNumberOfPlayers;
@@ -84,8 +84,8 @@ public class Game{
      * @see Player
      */
     public void playerLeft(int playerNumber){
-        writeMessageToAll("Player " + playerNumber + " left the game :(");
         playersList[playerNumber] = null;
+        writeMessageToAll("Player " + playerNumber + " left the game :(");
         stopGame();
     }
 
