@@ -40,5 +40,5 @@ public class Prophet_1 implements Prophet{
      * @return true if player won
      */
     @Override
-    public boolean isWinner(Player player, Board board){return board.isWinner(player);}
+    public boolean isWinner(Player player, Board board){return board.hasHeClaimedAllTargets(player);}
 }

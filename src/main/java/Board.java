@@ -338,11 +338,11 @@ public class Board {
     }
 
     /**
-     * Checks whether the given player has won.
+     * Checks whether the given player has moved all his pieces to their target fields.
      * @param player given player
-     * @return true - the player has won, false - the player has not won
+     * @return true - the player has claimed all the targets, false - the player has not claimed all the targets.
      */
-    public boolean isWinner(Player player) {
+    public boolean hasHeClaimedAllTargets(Player player) {
         int count = 0;
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
