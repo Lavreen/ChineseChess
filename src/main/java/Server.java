@@ -8,10 +8,9 @@ import java.util.concurrent.Executors;
  * Run it to start a server.
  */
 public class Server {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         if(args.length != 3){
-            System.out.println("Input: numberOfPlayers mode boardSize");
-            return;
+            throw new Exception("Input: numberOfPlayers mode boardSize");
         }
 
         int numberOfPlayers, mode, boardSize;
@@ -20,24 +19,21 @@ public class Server {
             numberOfPlayers = Integer.parseInt(args[0]);
         }
         catch(NumberFormatException e){
-            System.out.println("Wrong number of players");
-            return;
+            throw new Exception("Wrong number of players");
         }
 
         try {
             mode = Integer.parseInt(args[1]);
         }
         catch(NumberFormatException e){
-            System.out.println("Wrong mode number");
-            return;
+            throw new Exception("Wrong mode number");
         }
 
         try {
             boardSize = Integer.parseInt(args[2]);
         }
         catch(NumberFormatException e){
-            System.out.println("Wrong board size");
-            return;
+            throw new Exception("Wrong board size");
         }
 
         ProphetFactory prophetFactory =  new ConcreteProphetFactory();
@@ -47,8 +43,7 @@ public class Server {
         try {
             prophet = prophetFactory.getProphet(mode);
         } catch (Exception e) {
-            System.out.println("Mode doesn't exist");
-            return;
+            throw new Exception("Mode doesn't exist");
         }
 
         try {
@@ -69,7 +64,7 @@ public class Server {
             }
         }
         catch (Exception e) {
-            System.out.println("Something wrong happened with server in a start phase");
+            throw new Exception("Something wrong happened with server in a start phase");
         }
     }
 }
