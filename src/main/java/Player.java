@@ -69,7 +69,7 @@ public class  Player implements Runnable{
     public void run() {
         while(number == -1){
             try {
-                wait(100);
+                Thread.sleep(100);
             } catch (InterruptedException e) {}
         }
         try {
