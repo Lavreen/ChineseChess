@@ -6,7 +6,7 @@ public class ProphetFactoryTest {
     @Test (expected = Exception.class)
     public void test1() throws Exception {
         ProphetFactory prophetFactory = new ConcreteProphetFactory();
-        Prophet prophet = prophetFactory.getProphet(3);
+        Prophet prophet = prophetFactory.getProphet(-1);
     }
 
     @Test

@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import org.junit.Before;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -19,9 +18,10 @@ public class GameTest {
     private Prophet prophet = mock(Prophet.class);
 
     @Mock
-    private Player player1= mock(Player.class);
+    private Player player1 = mock(Player.class);
+
     @Mock
-    private Player player2= mock(Player.class);
+    private Player player2 = mock(Player.class);
 
 
     @Before
