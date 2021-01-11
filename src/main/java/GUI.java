@@ -4,14 +4,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,6 +24,8 @@ public class GUI extends Application {
     private PrintWriter out;
 
     private final int windowSize = 1000;
+    private final int labelHeight = 20;
+    private final int skipButtonHeight = 50;
     private double spaceLength;
     private double buttonSize;
 
@@ -35,6 +33,7 @@ public class GUI extends Application {
     private Pane layout;
     private Label label;
     private Label labelColour;
+    private Button skipButton;
 
     private int boardSize;
     private int numberOfPlayers;
@@ -96,10 +95,10 @@ public class GUI extends Application {
      */
     private void labelSetup(){
         labelColour = new Label("You are playing: ");
-        labelColour.setMaxWidth(windowSize);
-        labelColour.setMinWidth(windowSize);
-        labelColour.setMaxHeight(20);
-        labelColour.setMinHeight(20);
+        labelColour.setMaxWidth(windowSize/3);
+        labelColour.setMinWidth(windowSize/3);
+        labelColour.setMaxHeight(labelHeight);
+        labelColour.setMinHeight(labelHeight);
         labelColour.setLayoutX(0);
         labelColour.setLayoutY(0);
         labelColour.setTextFill(Color.RED);
@@ -107,14 +106,22 @@ public class GUI extends Application {
         label = new Label();
         label.setMaxWidth(windowSize);
         label.setMinWidth(windowSize);
-        label.setMaxHeight(20);
-        label.setMinHeight(20);
+        label.setMaxHeight(labelHeight);
+        label.setMinHeight(labelHeight);
         label.setLayoutX(0);
-        label.setLayoutY(20);
+        label.setLayoutY(labelHeight);
         label.setTextFill(Color.RED);
 
         layout.getChildren().add(labelColour);
         layout.getChildren().add(label);
+
+        skipButton = new Button("Skip move");
+        skipButton.setLayoutX(windowSize - skipButtonHeight * 2);
+        skipButton.setLayoutY(0);
+        skipButton.setMaxSize(skipButtonHeight * 2, skipButtonHeight);
+        skipButton.setMinSize(skipButtonHeight * 2, skipButtonHeight);
+
+        layout.getChildren().add(skipButton);
     }
 
     /**
