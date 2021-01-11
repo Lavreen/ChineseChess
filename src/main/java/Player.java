@@ -70,19 +70,19 @@ public class  Player implements Runnable{
         while(number == -1){
             try {
                 Thread.sleep(100);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {e.printStackTrace();}
         }
         try {
             setup();
             ready = true;
             processCommands();
         }
-        catch (IOException e) {}
+        catch (IOException e) {e.printStackTrace();}
         finally {
                 game.playerLeft(number);
             try {
                 socket.close();
-            } catch (IOException e) {}
+            } catch (IOException e) {e.printStackTrace();}
         }
 
     }
@@ -101,6 +101,9 @@ public class  Player implements Runnable{
 
             if(command.startsWith("QUIT")){
                 return;
+            }
+            else if(command.startsWith("SKIP")){
+                game.skipMove(Player.this);
             }
             else if(command.startsWith("MOVE")){
                 int temp1 = command.indexOf(" ", 1) + 1;

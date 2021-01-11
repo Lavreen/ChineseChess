@@ -128,6 +128,15 @@ public class Game{
         }
     }
 
+
+    public void skipMove(Player player){
+        if(play) {
+            if (currentPlayer.equals(player)) {
+                nextPlayer();
+            }
+        }
+    }
+
     /**
      * Send message signal to players
      * @param message message

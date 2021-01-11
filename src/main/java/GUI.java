@@ -120,7 +120,9 @@ public class GUI extends Application {
         skipButton.setLayoutY(0);
         skipButton.setMaxSize(skipButtonHeight * 2, skipButtonHeight);
         skipButton.setMinSize(skipButtonHeight * 2, skipButtonHeight);
-
+        skipButton.setOnAction(actionEvent -> {
+            skipMove();
+        });
         layout.getChildren().add(skipButton);
     }
 
@@ -209,6 +211,15 @@ public class GUI extends Application {
         });
         thread.start();
     }
+
+    /**
+     * Sends information "skip move" to server
+     */
+    private void skipMove() {
+        out.println("SKIP");
+        moveQueue.clear();
+    }
+
 
     /**
      * Sends move when the moveQueue is ready.
