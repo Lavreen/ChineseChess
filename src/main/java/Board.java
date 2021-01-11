@@ -5,7 +5,8 @@ import java.util.Objects;
 import java.util.Stack;
 
 /**
- * Class managing generation of the board, including all dependencies between the fields, including move connections between fields.
+ * Class managing generation of the board, including all dependencies between
+ * the fields, including move connections between fields.
  */
 public class Board {
     enum direction {
@@ -13,11 +14,20 @@ public class Board {
         UPWARDS
     }
 
-    private static int SIZE; // "size" means the number of fields in every triangle-shaped board "arm's" base
-    private static int X; // dimensions of the rectangle which the board fits in
-    private static int Y; //
 
-    private final boolean[][] grid; // "true" - field exists
+
+    /**
+     * @param SIZE Size of the board; specified by the number of fields in every triangle-shaped board "arm's" base.
+     * @param X side length x of the rectangle which the board fits in.
+     * @param Y side length y of the rectangle which the board fits in.
+     *
+     * @param grid true - field exists.
+     */
+    private static int SIZE;
+    private static int X;
+    private static int Y;
+
+    private final boolean[][] grid;
     private final Field[][] fields;
     private final Player[] players;
     private char[] playersColours;

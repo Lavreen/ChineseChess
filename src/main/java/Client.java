@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 /**
+ * ~ LEGACY CLASS, USED FOR TESTING PURPOSES ONLY ~
  * Client class.
  * Run it with server address as parameter.
  * @see Server
