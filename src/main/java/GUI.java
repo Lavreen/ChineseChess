@@ -46,6 +46,9 @@ public class GUI extends Application {
 
     private final ArrayList<FieldCode> moveQueue = new ArrayList<>();
 
+    /**
+     * Sets up the socket.
+     */
     private void socketSetup(){
         try {
             Parameters parameters = getParameters();
@@ -57,6 +60,9 @@ public class GUI extends Application {
         }
     }
 
+    /**
+     * Sets up the board.
+     */
     private void boardSetup(){
         String response;
         response = in.nextLine();
@@ -85,7 +91,10 @@ public class GUI extends Application {
         fields= board.getFields();
     }
 
-    private void  labelSetup(){
+    /**
+     * Sets up the labels.
+     */
+    private void labelSetup(){
         labelColour = new Label("You are playing: ");
         labelColour.setMaxWidth(windowSize);
         labelColour.setMinWidth(windowSize);
@@ -108,6 +117,10 @@ public class GUI extends Application {
         layout.getChildren().add(label);
     }
 
+    /**
+     * Stage setupping, layout setupping, thread managing, every GUI function being called.
+     * @param primaryStage Default JavaFX stage.
+     */
     @Override
     public void start(Stage primaryStage){
         socketSetup();
@@ -190,11 +203,20 @@ public class GUI extends Application {
         thread.start();
     }
 
+    /**
+     * Sends move when the moveQueue is ready.
+     */
     private void sendMove(){
         out.println("MOVE " + moveQueue.get(0).getKey() + moveQueue.get(0).getValue() + " " + moveQueue.get(1).getKey() + moveQueue.get(1).getValue());
         moveQueue.clear();
     }
 
+    /**
+     * Adjusts button colors after when moving from fieldFrom to fieldTo.
+     *
+     * @param fieldFrom Field from which we are moving.
+     * @param fieldTo Field to which we are moving.
+     */
     private void makeMove(FieldCode fieldFrom, FieldCode fieldTo) {
         String color = "";
         for (int y = 0; y < board.getY(); y++) {
@@ -220,7 +242,12 @@ public class GUI extends Application {
         }
     }
 
-    public void generateButtons(Board board) {
+    /**
+     * Full button setup, including placement based on the generated board, styles, actions.
+     *
+     * @param board Basically button arrangement.
+     */
+    private void generateButtons(Board board) {
         buttons = new Button[board.getX()][board.getY()];
         for (int y = 0; y < board.getY(); y++) {
             for (int x = 0; x < board.getX(); x++) {
@@ -293,6 +320,11 @@ public class GUI extends Application {
         }
     }
 
+    /**
+     * Launch.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         if(args.length != 1){
             System.out.println("Input: hostname");
