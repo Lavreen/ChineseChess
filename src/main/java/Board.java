@@ -15,12 +15,10 @@ public class Board {
     }
 
 
-
     /**
      * @param SIZE Size of the board; specified by the number of fields in every triangle-shaped board "arm's" base.
      * @param X side length x of the rectangle which the board fits in.
      * @param Y side length y of the rectangle which the board fits in.
-     *
      * @param grid true - field exists.
      */
     private static int SIZE;
@@ -30,7 +28,7 @@ public class Board {
     private final boolean[][] grid;
     private final Field[][] fields;
     private final Player[] players;
-    private char[] playersColours;
+    private final char[] playersColours;
 
     private static int redOriginX, redOriginY;  // coordinates of the vertex from which the triangle generation starts
     private static int blackOriginX, blackOriginY;
@@ -44,7 +42,8 @@ public class Board {
 
     /**
      * Board constructor, runs board generation.
-     * @param size means the number of fields in every triangle-shaped board "arm's" base
+     *
+     * @param size    means the number of fields in every triangle-shaped board "arm's" base
      * @param players an array of players joining the game
      */
     public Board(int size, Player[] players) {
@@ -109,7 +108,7 @@ public class Board {
     /**
      * Assigns information to every Field object about its neighbors
      */
-    public void appendNeighbors() {
+    private void appendNeighbors() {
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
                 if (grid[x][y]) {
@@ -138,10 +137,11 @@ public class Board {
 
     /**
      * Creates fields in one of the board's triangular arms along with most of their parameters
+     *
      * @param direction the direction in which the triangle will be being generated starting from its @origin
-     * @param color specifies which of the board's arms will be generated
-     * @param x coordinate x of the structure's origin
-     * @param y coordinate y of the structure's origin
+     * @param color     specifies which of the board's arms will be generated
+     * @param x         coordinate x of the structure's origin
+     * @param y         coordinate y of the structure's origin
      */
     private void generateTriangle(direction direction, char color, int x, int y) {
         int rowBeginningX, rowBeginningY;
@@ -181,23 +181,23 @@ public class Board {
                         if (generatedTrianglesCount % 2 == 0) {
 
                             switch (generatedTrianglesCount) {
-                                case 0 :
+                                case 0 -> {
                                     fields[x][y].setOccupant(players[0]);
                                     playersColours[0] = color;
-                                    break;
-                                case 2 :
+                                }
+                                case 2 -> {
                                     fields[x][y].setOccupant(players[1]);
                                     playersColours[1] = color;
-                                    break;
-                                case 4 :
+                                }
+                                case 4 -> {
                                     fields[x][y].setOccupant(players[2]);
                                     playersColours[2] = color;
-                                    break;
+                                }
                             }
                         }
                         break;
                     case 4:
-                        if(generatedTrianglesCount == 1 || generatedTrianglesCount == 2 || generatedTrianglesCount == 4 || generatedTrianglesCount == 5) {
+                        if (generatedTrianglesCount == 1 || generatedTrianglesCount == 2 || generatedTrianglesCount == 4 || generatedTrianglesCount == 5) {
                             switch (generatedTrianglesCount) {
                                 case 1 -> {
                                     targetOf = 2;
@@ -251,6 +251,7 @@ public class Board {
 
     /**
      * Creates fields in the board's hexagonal center along with most of their parameters
+     *
      * @param x coordinate x of the hexagon's origin (upper left corner of the hexagon)
      * @param y coordinate y of the hexagon's origin (upper left corner of the hexagon)
      */
@@ -312,9 +313,10 @@ public class Board {
 
     /**
      * Sets occupant of the field given by the color-position.
+     *
      * @param codeChar color of the field represented by its first letter
-     * @param codeInt field's number
-     * @param player the occupant
+     * @param codeInt  field's number
+     * @param player   the occupant
      */
     public void setFieldOccupant(char codeChar, int codeInt, Player player) {
         for (int y = 0; y < Y; y++) {
@@ -331,8 +333,9 @@ public class Board {
 
     /**
      * Returns field's occupant
+     *
      * @param codeChar color of the field represented by its first letter
-     * @param codeInt field's number
+     * @param codeInt  field's number
      * @return field's occupant
      */
     public Player getFieldOccupant(char codeChar, int codeInt) {
@@ -349,6 +352,7 @@ public class Board {
 
     /**
      * Checks whether the given player has moved all his pieces to their target fields.
+     *
      * @param player given player
      * @return true - the player has claimed all the targets, false - the player has not claimed all the targets.
      */
@@ -369,6 +373,7 @@ public class Board {
 
     /**
      * Supportive function of isWinner
+     *
      * @return count
      */
     private int triangleFieldCount() {
@@ -380,13 +385,14 @@ public class Board {
 
     /**
      * Checks if fields of given color-position codes are neighbors.
+     *
      * @param codeCharOne color of the first field
-     * @param codeIntOne number of the first field
+     * @param codeIntOne  number of the first field
      * @param codeCharTwo color of the second field
-     * @param codeIntTwo number of the second field
+     * @param codeIntTwo  number of the second field
      * @return true - the fields are each other's neighbors, false - they are not
      */
-    public boolean areNeighbors(char  codeCharOne, int codeIntOne, char  codeCharTwo, int codeIntTwo){
+    public boolean areNeighbors(char codeCharOne, int codeIntOne, char codeCharTwo, int codeIntTwo) {
 
         for (int y = 0; y < Y; y++) {
             for (int x = 0; x < X; x++) {
@@ -401,13 +407,14 @@ public class Board {
 
     /**
      * Checks if fields of given color-position codes are within 1-move reach.
+     *
      * @param codeCharOne color of the first field
-     * @param codeIntOne number of the first field
+     * @param codeIntOne  number of the first field
      * @param codeCharTwo color of the second field
-     * @param codeIntTwo number of the second field
+     * @param codeIntTwo  number of the second field
      * @return true - the fields are each other's "far neighbors", false - they are not
      */
-    public boolean areFarNeighbors(char  codeCharOne, int codeIntOne, char  codeCharTwo, int codeIntTwo){
+    public boolean areFarNeighbors(char codeCharOne, int codeIntOne, char codeCharTwo, int codeIntTwo) {
         Field fieldOne = null, fieldTwo = null;
 
         for (int y = 0; y < Y; y++) {
@@ -422,7 +429,7 @@ public class Board {
             }
         }
 
-        if(Objects.isNull(fieldOne) || Objects.isNull(fieldTwo)){
+        if (Objects.isNull(fieldOne) || Objects.isNull(fieldTwo)) {
             return false;
         }
 
@@ -431,17 +438,17 @@ public class Board {
 
         stack.push(fieldOne);
 
-        while(!stack.empty()){
+        while (!stack.empty()) {
             Field temp = stack.pop();
 
-            if(temp.equals(fieldTwo)){
+            if (temp.equals(fieldTwo)) {
                 return true;
             }
 
             list.add(temp);
 
-            for(Field field: jumpNeighbors(temp)){
-                if(!list.contains(field)){
+            for (Field field : jumpNeighbors(temp)) {
+                if (!list.contains(field)) {
                     stack.push(field);
                 }
             }
@@ -452,6 +459,7 @@ public class Board {
 
     /**
      * Returns an array of fields within one jump of the given field.
+     *
      * @param field field
      * @return array of fields within one jump of the given field.
      */
@@ -486,18 +494,31 @@ public class Board {
                                 jumpNeighbors.add(fields[neighbor.first.getGridCoordinateX() - 1][neighbor.first.getGridCoordinateY() + 1]);
                             break;
                     }
-                } catch (NullPointerException e) {}
-                catch (ArrayIndexOutOfBoundsException e) {}
+                } catch (NullPointerException e) {
+                } catch (ArrayIndexOutOfBoundsException e) {
+                }
             }
         }
         return jumpNeighbors;
     }
 
-    public int getY() {return Y;}
-    public int getX() {return X;}
-    public boolean[][] getGrid() {return grid;}
-    public Field[][] getFields() {return fields;}
-    public char[] getPlayersColours(){
+    public int getY() {
+        return Y;
+    }
+
+    public int getX() {
+        return X;
+    }
+
+    public boolean[][] getGrid() {
+        return grid;
+    }
+
+    public Field[][] getFields() {
+        return fields;
+    }
+
+    public char[] getPlayersColours() {
         return playersColours;
     }
 
