@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -84,6 +85,9 @@ public class Game{
      * @see Player
      */
     public void playerLeft(int playerNumber){
+//        if(currentPlayer.equals(playersList[playerNumber])){
+//            nextPlayer();
+//        }
         playersList[playerNumber] = null;
         writeMessageToAll("Player " + playerNumber + " left the game :(");
         stopGame();
@@ -94,6 +98,17 @@ public class Game{
      */
     private void nextPlayer(){
         currentPlayer.writeMessage("Wait for your opponents' moves");
+//        int i = 1;
+//        currentPlayer  = playersList[(currentPlayer.getNumber() + i) % expectedNumberOfPlayers];
+//        while (Objects.isNull(currentPlayer) && i < expectedNumberOfPlayers){
+//            i++;
+//            currentPlayer  = playersList[(currentPlayer.getNumber() + i) % expectedNumberOfPlayers];
+//        }
+
+//        if(Objects.isNull(currentPlayer)){
+//            stopGame();
+//        }
+
         currentPlayer  = playersList[(currentPlayer.getNumber() + 1) % expectedNumberOfPlayers];
         currentPlayer.writeMessage("Your turn");
     }
