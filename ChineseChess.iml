@@ -7,7 +7,11 @@
   </component>
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/spring-configurations.xml</file>
+        </fileset>
+      </configuration>
     </facet>
   </component>
 </module>
